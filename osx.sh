@@ -5,8 +5,42 @@ export PATH
 cd ~/Download
 mkdir -p software
 cd software
-wget -c http://7xk96f.com1.z0.glb.clouddn.com/software/luajit/LuaJIT-2.0.4.tar.gz
+
+curl -o openssl-1.0.2d.tar.gz http://www.openssl.org/source/openssl-1.0.2d.tar.gz
+curl -o wget-1.16.tar.gz http://ftp.gnu.org/gnu/wget/wget-1.16.tar.gz
+curl-7.43.0.tar.gz
+
+tar zxvf openssl-1.0.2d.tar.gz
+cd openssl-1.0.2d/
+./Configure darwin64-x86_64-cc
+make && make install
+cd ../
+
+tar zxvf wget-1.16.tar.gz
+cd wget-1.16/
+./configure --with-ssl=openssl
+make && make install
+cd ../
+
+
+wget -c http://ftp.gnu.org/gnu/m4/m4-1.4.17.tar.gz
+wget -c http://ftp.gnu.org/gnu/libtool/libtool-2.4.6.tar.gz
+wget -c http://ftp.gnu.org/gnu/readline/readline-6.3.tar.gz
+
 wget -c http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz
+
+ctags-5.8.tar.gz
+automake-1.15.tar.gz
+bzip2-1.0.6.tar.gz
+freetype-2.6.tar.gz
+gettext-0.19.tar.gz
+jpegsrc.v9a.tar.gz
+libxslt-1.1.28.tar.gz
+zlib-1.2.8.tar.gz
+libgd-2.1.0.tar.gz
+
+wget -c http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz
+wget -c http://7xk96f.com1.z0.glb.clouddn.com/software/luajit/LuaJIT-2.0.4.tar.gz
 wget -c http://7xk96f.com1.z0.glb.clouddn.com/software/mcrypt/libmcrypt-2.5.8.tar.gz
 wget -c http://7xk96f.com1.z0.glb.clouddn.com/software/mhash/mhash-0.9.9.9.tar.gz
 wget -c http://7xk96f.com1.z0.glb.clouddn.com/software/mcrypt/mcrypt-2.6.8.tar.gz
