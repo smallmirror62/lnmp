@@ -24,7 +24,7 @@ Install_Redis()
     echo "====== Installing Redis ======"
     Press_Install
     
-    sed -i '/redis.so/d' /usr/local/php/etc/php.ini
+    sed -i '/redis.so/d' /etc/php.ini
     Get_PHP_Ext_Dir
     zend_ext="${zend_ext_dir}redis.so"
     if [ -s "${zend_ext}" ]; then
@@ -41,14 +41,13 @@ Install_Redis()
     fi
 
     if [ "${Is_64bit}" = "y" ] ; then
-        make PREFIX=/usr/local/redis install
+        make PREFIX=/usr install
     else
-        make CFLAGS="-march=i686" PREFIX=/usr/local/redis install
+        make CFLAGS="-march=i686" PREFIX=/usr install
     fi
-    mkdir -p /usr/local/redis/etc/
-    \cp redis.conf  /usr/local/redis/etc/
-    sed -i 's/daemonize no/daemonize yes/g' /usr/local/redis/etc/redis.conf
-    sed -i 's/# bind 127.0.0.1/bind 127.0.0.1/g' /usr/local/redis/etc/redis.conf
+    \cp redis.conf  /etc/
+    sed -i 's/daemonize no/daemonize yes/g' /etc/redis.conf
+    sed -i 's/# bind 127.0.0.1/bind 127.0.0.1/g' /etc/redis.conf
     cd ../
 
     if [ -s /sbin/iptables ]; then
@@ -68,12 +67,12 @@ Install_Redis()
     Download_Files http://pecl.php.net/get/${PHPRedis_Ver}.tgz ${PHPRedis_Ver}.tgz
     Tar_Cd ${PHPRedis_Ver}.tgz ${PHPRedis_Ver}
     /usr/local/php/bin/phpize
-    ./configure --with-php-config=/usr/local/php/bin/php-config
+    ./configure --with-php-config=/usr/bin/php-config
     make && make install
     cd ../
 
 sed -i '/the dl()/i\
-extension = "redis.so"' /usr/local/php/etc/php.ini
+extension = "redis.so"' /etc/php.ini
 
     \cp ${cur_dir}/init.d/init.d.redis /etc/init.d/redis
     chmod +x /etc/init.d/redis
@@ -84,26 +83,4 @@ extension = "redis.so"' /usr/local/php/etc/php.ini
 
     echo "====== Redis install completed ======"
     echo "Redis installed successfully, enjoy it!"
-}
-
-Uninstall_Redis()
-{
-    echo "You will uninstall Redis..."
-    Press_Start
-    sed -i '/redis.so/d' /usr/local/php/etc/php.ini
-    Restart_PHP
-    Remove_StartUp redis
-    echo "Delete Redis files..."
-    rm -rf /usr/local/redis
-    rm -rf /etc/init.d/redis
-    if [ -s /sbin/iptables ]; then
-        /sbin/iptables -D INPUT -p tcp -s 127.0.0.1 --dport 6379 -j ACCEPT
-        /sbin/iptables -D INPUT -p tcp --dport 6379 -j DROP
-        if [ "$PM" = "yum" ]; then
-            service iptables save
-        elif [ "$PM" = "apt" ]; then
-            iptables-save > /etc/iptables.rules
-        fi
-    fi
-    echo "Uninstall Redis completed."
 }

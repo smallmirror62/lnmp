@@ -7,7 +7,7 @@ Install_PHPMemcache()
     Download_Files ${Download_Mirror}/web/memcache/${PHPMemcache_Ver}.tgz ${PHPMemcache_Ver}.tgz
     Tar_Cd ${PHPMemcache_Ver}.tgz ${PHPMemcache_Ver}
     /usr/local/php/bin/phpize
-    ./configure --with-php-config=/usr/local/php/bin/php-config
+    ./configure --with-php-config=/usr/bin/php-config
     make && make install
     cd ../
 }
@@ -36,8 +36,8 @@ Install_PHPMemcached()
 
     Download_Files ${Download_Mirror}/web/php-memcached/${PHPMemcached_Ver}.tgz ${PHPMemcached_Ver}.tgz
     Tar_Cd ${PHPMemcached_Ver}.tgz ${PHPMemcached_Ver}
-    /usr/local/php/bin/phpize
-    ./configure --with-php-config=/usr/local/php/bin/php-config --enable-memcached --with-libmemcached-dir=/usr/local/libmemcached
+    /usr/bin/phpize
+    ./configure --with-php-config=/usr/bin/php-config --enable-memcached --with-libmemcached-dir=/usr/local/libmemcached
     make && make install
     cd ../
 }
