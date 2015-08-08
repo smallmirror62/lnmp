@@ -1,0 +1,550 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"Server",
+				"ServerUrl"
+			],
+			[
+				"pa",
+				"parse_url"
+			],
+			[
+				"str_r",
+				"str_replace"
+			],
+			[
+				"upl",
+				"uploadSpeedTest"
+			],
+			[
+				"up",
+				"uploadSpeed"
+			],
+			[
+				"pro",
+				"protected"
+			],
+			[
+				"base",
+				"baseUrl"
+			],
+			[
+				"r",
+				"rules"
+			],
+			[
+				"ru",
+				"rule"
+			],
+			[
+				"com",
+				"compiledRules"
+			],
+			[
+				"ca",
+				"cacheKey"
+			],
+			[
+				"ro",
+				"route"
+			],
+			[
+				"p",
+				"params"
+			],
+			[
+				"rot",
+				"router"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "/C/Users/Administrator/Desktop/nginx.conf",
+			"settings":
+			{
+				"buffer_size": 5312,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/C/Users/Administrator/Desktop/p.php",
+			"settings":
+			{
+				"buffer_size": 40368,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"selected_items":
+		[
+			[
+				"packe",
+				"Package Control: Disable Package→禁用插件"
+			],
+			[
+				"pack",
+				"Package Control: Disable Package→禁用插件"
+			],
+			[
+				"install",
+				"Package Control: Install Package→安装插件"
+			],
+			[
+				"Package Control: install",
+				"Package Control: Install Package→安装插件"
+			],
+			[
+				"Package Control:  instal",
+				"Package Control: Install Package→安装插件"
+			]
+		],
+		"width": 608.0
+	},
+	"console":
+	{
+		"height": 146.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/E/src/lnmp"
+	],
+	"file_history":
+	[
+		"/C/Users/Administrator/Desktop/lnmp0.9/centos.sh",
+		"/C/Users/Administrator/Desktop/p.php",
+		"/C/Users/Administrator/Desktop/lnmp1.0/centos.sh",
+		"/E/src/lnmp/lnmp-install.log",
+		"/E/src/p.php",
+		"/E/src/lnmp/centos.sh",
+		"/C/Users/Administrator/Desktop/lnmp1.1/centos.sh",
+		"/C/Users/Administrator/Desktop/lnmp1.1/lnmp",
+		"/E/src/lnmp/lnmp",
+		"/E/src/lnmp/etc/init.d/init.d.httpd",
+		"/E/src/lnmp/etc/init.d/init.d.proftpd",
+		"/E/src/lnmp/etc/init.d/init.d.php-fpm5.2",
+		"/C/Users/Administrator/Desktop/index.html",
+		"/C/Users/Administrator/Desktop/lnmp1.2/include/init.sh",
+		"/E/src/lnmp/osx.sh",
+		"/C/Users/Administrator/Desktop/lnmp1.2/include/end.sh",
+		"/E/src/lnmp/src/.gitkeep",
+		"/C/Users/Administrator/Desktop/lnmp0.1/install.sh",
+		"/E/src/lnmp/php5.2.17.sh",
+		"/E/src/lnmp/pureftpd.sh",
+		"/E/src/lnmp/opcache.sh",
+		"/E/src/lnmp/ubuntu.sh",
+		"/C/Users/Administrator/Desktop/Server/nginx.conf",
+		"/E/src/lnmp/etc/nginx/nginx.conf",
+		"/E/src/lnmp/etc/pure-ftpd.conf",
+		"/E/src/lnmp/etc/nginx/proxy-pass-php.conf",
+		"/E/src/lnmp/etc/nginx/proxy_params",
+		"/E/src/lnmp/etc/nginx/proxy.conf",
+		"/C/Users/Administrator/Desktop/lnmp1.2/conf/nginx_a.conf",
+		"/C/Users/Administrator/Desktop/lnmp1.2/conf/nginx.conf",
+		"/C/Users/Administrator/Desktop/lnmp1.2/conf/lnmp",
+		"/C/Users/Administrator/Desktop/lnmp1.2/conf/ocp.php",
+		"/C/Users/Administrator/Desktop/lnmp1.2/conf/pure-ftpd.conf",
+		"/C/Users/Administrator/Desktop/lnmp1.2/conf/config.inc.php",
+		"/C/Users/Administrator/Desktop/lnmp1.2/conf/301.conf",
+		"/C/Users/Administrator/Desktop/lnmp1.2/conf/enable-php.conf",
+		"/E/src/lnmp/etc/lnmp",
+		"/E/src/lnmp/etc/nginx/rewrite/wp2.conf",
+		"/E/src/lnmp/etc/nginx/rewrite/wordpress.conf",
+		"/E/src/lnmp/etc/nginx/rewrite/none.conf",
+		"/E/src/lnmp/etc/nginx/rewrite/ecshop.conf",
+		"/E/src/lnmp/etc/nginx/rewrite/discuzx2.conf",
+		"/E/src/lnmp/etc/nginx/rewrite/discuzx.conf",
+		"/E/src/lnmp/etc/nginx/rewrite/discuz.conf",
+		"/E/src/lnmp/etc/nginx/rewrite/dedecms.conf",
+		"/C/Users/Administrator/Desktop/lnmp1.2/conf/pathinfo.conf",
+		"/C/Users/Administrator/Desktop/lnmp1.2/conf/php-fpm5.2.conf",
+		"/C/Users/Administrator/Desktop/lnmp1.2/conf/proxy.conf",
+		"/C/Users/Administrator/Desktop/lnmp1.2/conf/enable-php-pathinfo.conf",
+		"/E/src/lnmp/etc/nginx/sites-available/default.conf",
+		"/C/Users/Administrator/Desktop/lnmp1.2/include/php.sh",
+		"/E/src/lnmp/etc/nginx/sites-enabled/dev.leadlife.cn.conf",
+		"/C/Users/Administrator/Desktop/lnmp1.2/include/main.sh",
+		"/C/Users/Administrator/Desktop/2.html",
+		"/E/src/speedtest/resources/views/show.blade.php",
+		"/E/src/speedtest/resources/views/welcome.blade.php",
+		"/C/Users/Administrator/Desktop/lnmp/imageMagick.sh",
+		"/C/Users/Administrator/Desktop/lnmp/osx.sh",
+		"/C/Users/Administrator/Desktop/lnmp/centos.sh",
+		"/C/Users/Administrator/Desktop/lnmp/init.d/php-fpm",
+		"/C/Users/Administrator/Desktop/lnmp/init.d/nginx",
+		"/C/Users/Administrator/Desktop/init.d.php-fpm",
+		"/C/Users/Administrator/Desktop/lnmp1.2/init.d/init.d.nginx",
+		"/C/Users/Administrator/Desktop/nginx",
+		"/C/Users/Administrator/Desktop/PortGroper3/src/PortGroperGUI.java",
+		"/C/Users/Administrator/Desktop/init.d.nginx",
+		"/E/src/myip/webroot/assets/js/modules/test.js",
+		"/E/src/myip/resources/views/test.blade.php",
+		"/E/src/codeforge/language/language.php",
+		"/E/src/codeforge/cache/codeforge.l68.net.tpl.1gz9iqb",
+		"/E/src/codeforge/app/dlfile.php",
+		"/E/src/codeforge/index.php",
+		"/E/src/zhangnei/phpcms/event.php",
+		"/E/src/zhangnei/phpcms/libs/functions/autoload/time.func.php",
+		"/E/src/zhangnei/phpcms/libs/classes/form.class.php",
+		"/E/src/codeforge/admin11055/Admin/Common/common.php",
+		"/E/src/codeforge/admin11055/Admin/Tpl/Admin/index.html",
+		"/E/src/codeforge/include/db.util.php",
+		"/E/src/codeforge/include/include_all.php",
+		"/E/src/zhangnei/phpcms/libs/functions/autoload/event.func.php",
+		"/E/src/codeforge/ui_cn/events_201507jn.html",
+		"/E/src/codeforge/temp/codeforge.l68.net.tpl.1gz9iqb",
+		"/E/src/myip/app/Http/Controllers/TestController.php",
+		"/E/src/myip/webroot/web.config",
+		"/E/src/speedtest/resources/views/show_src.blade.php",
+		"/E/src/speedtest/resources/views/welcome_src.blade.php",
+		"/E/src/speedtest/resources/views/report_src.blade.php",
+		"/E/src/speedtest/resources/views/contact_src.blade.php",
+		"/E/src/speedtest/webroot/assets/js/report.js",
+		"/E/src/speedtest/app/Http/Controllers/ApiController.php",
+		"/E/src/speedtest/webroot/assets/echart/corejs/optionDNcomparison.js",
+		"/E/src/speedtest/webroot/assets/echart/corejs/optionUPcomparison.js",
+		"/E/src/speedtest/resources/views/adv_src.blade.php",
+		"/E/src/speedtest/webroot/web.config",
+		"/E/src/speedtest/webroot/SpeedTest/SpeedTest.src.html",
+		"/E/src/speedtest/webroot/SpeedTest/index.php",
+		"/C/Users/Administrator/Desktop/User_agent.php",
+		"/E/src/speedtest/webroot/assets/js/jquery.speedtest.src.js",
+		"/E/src/speedtest/resources/views/report.blade.php",
+		"/E/src/speedtest/speedtest_flash_as3_project/src/testupload.php",
+		"/E/src/speedtest/report.php",
+		"/E/src/speedtest/webroot/assets/echart/corejs/data-china.js",
+		"/E/src/speedtest/webroot/assets/echart/corejs/data-formatter.js",
+		"/E/src/speedtest/webroot/assets/echart/corejs/optionDXdownload.js",
+		"/E/src/speedtest/webroot/assets/echart/corejs/optionDXupload.js",
+		"/E/src/speedtest/webroot/assets/echart/corejs/optionLTdownload.js",
+		"/E/src/speedtest/webroot/assets/js/report/optionDXupload.js",
+		"/E/src/speedtest/webroot/assets/js/report/optionDXdownload.js",
+		"/E/src/speedtest/webroot/assets/echart/corejs/optionLTupload.js",
+		"/E/src/speedtest/app/Report.php",
+		"/E/src/speedtest/app/TestPoint.php",
+		"/C/Users/Administrator/Desktop/lnmp1.2/install.sh",
+		"/C/Users/Administrator/Desktop/lnmp1.2/include/mariadb.sh",
+		"/E/src/speedtest/resources/views/mobile.blade.php",
+		"/E/src/myip/app/Http/Middleware/FangDao.php",
+		"/E/src/myip/app/Http/Middleware/Authenticate.php",
+		"/E/src/myip/app/Http/Middleware/VerifyCsrfToken - 副本.php",
+		"/E/src/speedtest/app/Http/Controllers/WelcomeController.php",
+		"/E/src/speedtest/app/Http/routes.php",
+		"/E/src/myip/app/KeywordIndexs.php",
+		"/D/Server/MongoDB/mongod.cfg",
+		"/E/src/myip/cheome/js/tr.js",
+		"/E/src/myip/storage/app/cookie/miibeian.gov.cn.cookie",
+		"/E/src/speedtest/webroot/SpeedTest/SpeedTest.html",
+		"/E/src/speedtest/webroot/SpeedTest/SpeedTest_moblie.html",
+		"/E/src/speedtest/webroot/SpeedTest/SpeedTest_moblie.src.html",
+		"/E/src/speedtest/resources/views/mobile_src.blade.php",
+		"/E/src/speedtest/webroot/assets/css/style.css"
+	],
+	"find":
+	{
+		"height": 38.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"DEXTRA_CHARSETS",
+			"DWITH_ZLIB",
+			"mysql",
+			"Get_Dist_Name",
+			"formatHeight",
+			"Path.js",
+			"zrender",
+			"\n                ",
+			"console",
+			"putResult",
+			"mtip",
+			"shake",
+			"1m",
+			"jquery.speedtest.js",
+			"ApiUrl",
+			"ServerUrl",
+			"zip",
+			"session",
+			"Base",
+			"update_testpoint",
+			"'])",
+			"getIpInfo",
+			"ipinfo",
+			"getTestPoints",
+			"l68",
+			"bdsharebuttonbox",
+			"www.speedtest.cn",
+			"j.php",
+			"sxuchao",
+			"function",
+			"T",
+			"www.speedtest.cn",
+			"http://www.speedtest.cn",
+			"downloadSpeedTest",
+			"setSpeed",
+			"_compile_data",
+			"nowDownloadSpeed",
+			"OPTION_APPCONFIG",
+			"a8426pf",
+			"a8426ops",
+			"setBasePath",
+			"getModule",
+			"getModuleName",
+			"radius",
+			"encryption",
+			"getHelper",
+			"app-backto-top",
+			"top",
+			"isObject",
+			"register",
+			"notifyAudio",
+			"isObject",
+			"JSON",
+			"isArray",
+			"isObject",
+			"resolvePaths",
+			"setConfigurationFile",
+			"CONFIG_FILE",
+			"setConfigurationFile",
+			"new",
+			"run",
+			"noprealloc",
+			"dispatch",
+			"_buildParameter",
+			"dependencyInjector",
+			"cookies",
+			"MimeType",
+			"Mine",
+			"setAuthorization",
+			"protected",
+			"resolveRequestUri",
+			"method",
+			"Release",
+			"BUILD_DIR",
+			"Phalcon",
+			"InvalidConfigException",
+			"port",
+			"get",
+			"getUser",
+			"getUserPort",
+			"getHeader",
+			"instanceof",
+			"logException",
+			"getViewPath",
+			"defaultFormatters",
+			"setBasePath",
+			"controllerMap",
+			"ip",
+			"renderException",
+			"onUncaughtLowSeverity",
+			"onUncaughtException",
+			"goods_query",
+			".ecpss",
+			"get_curr_info",
+			"marketlist"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"userInfo",
+			"speedtest.l68.net",
+			"http://speedtest.l68.net",
+			"public",
+			"Leaps"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/C/Users/Administrator/Desktop/nginx.conf",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5312,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"origin_encoding": "UTF-8",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 4301.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/C/Users/Administrator/Desktop/p.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 40368,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"origin_encoding": "UTF-8",
+							"syntax": "Packages/PHP/PHP.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 30.0
+	},
+	"input":
+	{
+		"height": 34.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.9o://E:\\Projects\\test":
+	{
+		"height": 118.0
+	},
+	"output.MarGo-output":
+	{
+		"height": 28.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "lnmp",
+	"replace":
+	{
+		"height": 56.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+			[
+				"",
+				"E:\\src\\lnmp\\lnmp.sublime-workspace"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 162.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
