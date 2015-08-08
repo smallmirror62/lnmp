@@ -58,6 +58,10 @@ function InitInstall()
 
 	for packages in patch make cmake gcc gcc-c++ gcc-g77 bison flex file libtool libtool-libs autoconf kernel-devel libjpeg libjpeg-devel libpng libpng-devel gd gd-devel freetype freetype-devel libxml2 libxml2-devel zlib zlib-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel ncurses ncurses-devel curl curl-devel e2fsprogs e2fsprogs-devel krb5 krb5-devel libidn libidn-devel openssl openssl-devel gmp-devel gettext gettext-devel openldap openldap-devel nss_ldap openldap-clients openldap-servers vim-minimal nano fonts-chinese gmp-devel pspell-devel unzip libcap diffutils readline-devel libxslt libxslt-devel
 	do yum -y install $packages; done
+
+	#yum -y install patch make cmake gcc gcc-c++ gcc-g77 bison flex file libtool libtool-libs autoconf kernel-devel libjpeg libjpeg-devel libpng libpng-devel gd gd-devel freetype freetype-devel libxml2 libxml2-devel zlib zlib-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel ncurses ncurses-devel curl curl-devel e2fsprogs e2fsprogs-devel krb5 krb5-devel libidn libidn-devel openssl openssl-devel gmp-devel gettext gettext-devel openldap openldap-devel nss_ldap openldap-clients openldap-servers vim-minimal nano fonts-chinese gmp-devel pspell-devel unzip libcap diffutils readline-devel libxslt libxslt-devel
+
+
 }
 function CheckAndDownloadFiles()
 {
@@ -66,7 +70,7 @@ if [ -s libiconv-1.14.tar.gz ]; then
   echo "libiconv-1.14.tar.gz [found]"
   else
   echo "Error: libiconv-1.14.tar.gz not found!!!download now......"
-  wget -c http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz
+  http://7xk96f.com1.z0.glb.clouddn.com/software/libiconv/libiconv-1.14.tar.gz
 fi
 
 if [ -s libmcrypt-2.5.8.tar.gz ]; then
@@ -141,6 +145,9 @@ cd ../
 
 mkdir -p software
 cd software
+
+wget -c http://7xk96f.com1.z0.glb.clouddn.com/software/php/php-5.6.12.tar.gz
+
 wget -c http://7xk96f.com1.z0.glb.clouddn.com/software/luajit/LuaJIT-2.0.4.tar.gz
 wget -c http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz
 wget -c http://7xk96f.com1.z0.glb.clouddn.com/software/mcrypt/libmcrypt-2.5.8.tar.gz
@@ -190,3 +197,32 @@ make && make install
 cd ../
 
 
+/usr/sbin/groupadd www
+/usr/sbin/useradd -m -g www www
+
+tar zxf php-5.6.12.tar.gz
+cd php-5.6.12/
+./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info --sysconfdir=/etc --with-config-file-path=/etc --with-config-file-scan-dir=/etc/php --with-libxml-dir --with-openssl --with-kerberos --with-zlib --enable-bcmath --with-bz2 --enable-calendar --with-curl --enable-exif --enable-fpm --enable-ftp --with-png-dir --with-gd --with-jpeg-dir --enable-gd-native-ttf --with-icu-dir --enable-mbstring --enable-mbregex --enable-shmop --enable-soap --enable-sockets --enable-sysvmsg --enable-sysvsem --enable-sysvshm --enable-wddx --with-xmlrpc --with-readline --with-iconv-dir --with-xsl --enable-zip --with-pcre-regex --with-freetype-dir --enable-xml --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-pdo-sqlite --with-sqlite3 --disable-rpath  --enable-inline-optimization --with-mcrypt  --with-mhash --enable-pcntl --enable-sockets  --without-pear --with-gettext --enable-fileinfo --enable-opcache --enable-cli
+make ZEND_EXTRA_LIBS='-liconv'
+make install
+
+cp php.ini-production /etc/php.ini
+cp /etc/php-fpm.conf.default /etc/php-fpm.conf
+cp sapi/fpm/init.d.php-fpm /etc/init.d/php-fpm
+chmod +x /etc/init.d/php-fpm
+
+tar zxf tengine-2.1.0.tar.gz
+cd tengine-2.1.0
+./configure --prefix=/usr --sbin-path=/usr/sbin --dso-path=/usr/lib/nginx --conf-path=/etc/nginx/nginx.conf --http-log-path=/var/log/nginx/access.log --error-log-path=/var/log/nginx/error.log --lock-path=/var/lock/nginx.lock --pid-path=/var/run/nginx.pid --http-client-body-temp-path=/var/lib/nginx/body --http-fastcgi-temp-path=/var/lib/nginx/fastcgi --http-proxy-temp-path=/var/lib/nginx/proxy --http-scgi-temp-path=/var/lib/nginx/scgi --http-uwsgi-temp-path=/var/lib/nginx/uwsgi --with-luajit-inc=/usr/local/include/luajit-2.0 --with-luajit-lib=/usr/local/lib --with-ipv6 --with-mail --with-pcre-jit --with-http_ssl_module --with-http_sub_module  --with-mail_ssl_module --with-http_dav_module --with-http_xslt_module --with-http_spdy_module --with-http_realip_module --with-http_addition_module --with-http_gzip_static_module --with-http_stub_status_module --with-http_image_filter_module --with-http_lua_module=shared --with-http_footer_filter_module=shared --with-http_sysguard_module=shared --with-http_limit_req_module=shared --with-http_trim_filter_module=shared --with-http_upstream_ip_hash_module=shared --with-http_upstream_least_conn_module=shared --with-http_upstream_session_sticky_module=shared --with-http_concat_module=shared 
+
+make && make install
+cd ../
+
+mkdir /var/lib/nginx
+mkdir /var/log/nginx
+
+cp nginx /etc/init.d/nginx
+chmod +x /etc/init.d/nginx
+
+chkconfig nginx on
+chkconfig php-fpm on
