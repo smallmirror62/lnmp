@@ -1,0 +1,555 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"Server",
+				"ServerUrl"
+			],
+			[
+				"pa",
+				"parse_url"
+			],
+			[
+				"str_r",
+				"str_replace"
+			],
+			[
+				"upl",
+				"uploadSpeedTest"
+			],
+			[
+				"up",
+				"uploadSpeed"
+			],
+			[
+				"pro",
+				"protected"
+			],
+			[
+				"base",
+				"baseUrl"
+			],
+			[
+				"r",
+				"rules"
+			],
+			[
+				"ru",
+				"rule"
+			],
+			[
+				"com",
+				"compiledRules"
+			],
+			[
+				"ca",
+				"cacheKey"
+			],
+			[
+				"ro",
+				"route"
+			],
+			[
+				"p",
+				"params"
+			],
+			[
+				"rot",
+				"router"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "/C/Users/Administrator/Desktop/lnmp0.9/centos.sh",
+			"settings":
+			{
+				"buffer_size": 19485,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "#!/bin/bash\nPATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin\nexport PATH\n\n# Check if user is root\nif [ $(id -u) != \"0\" ]; then\n    echo \"Error: You must be root to run this script, please use root to install lnmp\"\n    exit 1\nfi\n\nclear\necho \"=========================================================================\"\necho \"LNMP V1.0 for CentOS/RadHat Linux VPS  Written by Licess\"\necho \"=========================================================================\"\necho \"A tool to auto-compile & install Nginx+MySQL+PHP on Linux \"\necho \"\"\necho \"For more information please visit http://www.lnmp.org/\"\necho \"=========================================================================\"\ncur_dir=$(pwd)\n\n#set mysql root password\n	echo \"===========================\"\n\n	mysqlrootpwd=\"root\"\n	echo \"Please input the root password of mysql:\"\n	read -p \"(Default password: root):\" mysqlrootpwd\n	if [ \"$mysqlrootpwd\" = \"\" ]; then\n		mysqlrootpwd=\"root\"\n	fi\n	echo \"===========================\"\n	echo \"MySQL root password:$mysqlrootpwd\"\n	echo \"===========================\"\n\n#do you want to install the InnoDB Storage Engine?\necho \"===========================\"\n\n	installinnodb=\"n\"\n	echo \"Do you want to install the InnoDB Storage Engine?\"\n	read -p \"(Default no,if you want please input: y ,if not please press the enter button):\" installinnodb\n\n	case \"$installinnodb\" in\n	y|Y|Yes|YES|yes|yES|yEs|YeS|yeS)\n	echo \"You will install the InnoDB Storage Engine\"\n	installinnodb=\"y\"\n	;;\n	n|N|No|NO|no|nO)\n	echo \"You will NOT install the InnoDB Storage Engine!\"\n	installinnodb=\"n\"\n	;;\n	*)\n	echo \"INPUT error,The InnoDB Storage Engine will NOT install!\"\n	installinnodb=\"n\"\n	esac\n\n#which PHP Version do you want to install?\necho \"===========================\"\n\n	isinstallphp53=\"n\"\n	echo \"Install PHP 5.3.17,Please input y\"\n	echo \"Install PHP 5.2.17,Please input n or press Enter\"\n	read -p \"(Please input y or n):\" isinstallphp53\n\n	case \"$isinstallphp53\" in\n	y|Y|Yes|YES|yes|yES|yEs|YeS|yeS)\n	echo \"You will install PHP 5.3.17\"\n	isinstallphp53=\"y\"\n	;;\n	n|N|No|NO|no|nO)\n	echo \"You will install PHP 5.2.17\"\n	isinstallphp53=\"n\"\n	;;\n	*)\n	echo \"INPUT error,You will install PHP 5.2.17\"\n	isinstallphp53=\"n\"\n	esac\n\n#which MySQL Version do you want to install?\necho \"===========================\"\n\n	isinstallmysql55=\"n\"\n	echo \"Install MySQL 5.5.27,Please input y\"\n	echo \"Install MySQL 5.1.60,Please input n or press Enter\"\n	read -p \"(Please input y or n):\" isinstallmysql55\n\n	case \"$isinstallmysql55\" in\n	y|Y|Yes|YES|yes|yES|yEs|YeS|yeS)\n	echo \"You will install MySQL 5.5.27\"\n	isinstallmysql55=\"y\"\n	;;\n	n|N|No|NO|no|nO)\n	echo \"You will install MySQL 5.1.60\"\n	isinstallmysql55=\"n\"\n	;;\n	*)\n	echo \"INPUT error,You will install MySQL 5.1.60\"\n	isinstallmysql55=\"n\"\n	esac\n\n	get_char()\n	{\n	SAVEDSTTY=`stty -g`\n	stty -echo\n	stty cbreak\n	dd if=/dev/tty bs=1 count=1 2> /dev/null\n	stty -raw\n	stty echo\n	stty $SAVEDSTTY\n	}\n	echo \"\"\n	echo \"Press any key to start...or Press Ctrl+c to cancel\"\n	char=`get_char`\n\nfunction InitInstall()\n{\n	cat /etc/issue\n	uname -a\n	MemTotal=`free -m | grep Mem | awk '{print  $2}'`  \n	echo -e \"\\n Memory is: ${MemTotal} MB \"\n	#Set timezone\n	rm -rf /etc/localtime\n	ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime\n\n	yum install -y ntp\n	ntpdate -u pool.ntp.org\n	date\n\n	rpm -qa|grep httpd\n	rpm -e httpd\n	rpm -qa|grep mysql\n	rpm -e mysql\n	rpm -qa|grep php\n	rpm -e php\n\n	yum -y remove httpd*\n	yum -y remove php*\n	yum -y remove mysql-server mysql\n	yum -y remove php-mysql\n\n	yum -y install yum-fastestmirror\n	yum -y remove httpd\n	#yum -y update\n\n	#Disable SeLinux\n	if [ -s /etc/selinux/config ]; then\n	sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config\n	fi\n\n	cp /etc/yum.conf /etc/yum.conf.lnmp\n	sed -i 's:exclude=.*:exclude=:g' /etc/yum.conf\n\n	for packages in patch make cmake gcc gcc-c++ gcc-g77 flex bison file libtool libtool-libs autoconf kernel-devel libjpeg libjpeg-devel libpng libpng-devel libpng10 libpng10-devel gd gd-devel freetype freetype-devel libxml2 libxml2-devel zlib zlib-devel glib2 glib2-devel bzip2 bzip2-devel libevent libevent-devel ncurses ncurses-devel curl curl-devel e2fsprogs e2fsprogs-devel krb5 krb5-devel libidn libidn-devel openssl openssl-devel vim-minimal nano fonts-chinese gettext gettext-devel ncurses-devel gmp-devel pspell-devel unzip libcap;\n	do yum -y install $packages; done\n\n	mv -f /etc/yum.conf.lnmp /etc/yum.conf\n}\n\nfunction CheckAndDownloadFiles()\n{\necho \"============================check files==================================\"\nif [ \"$isinstallphp53\" = \"n\" ]; then\n	if [ -s php-5.2.17.tar.gz ]; then\n	  echo \"php-5.2.17.tar.gz [found]\"\n	else\n	  echo \"Error: php-5.2.17.tar.gz not found!!!download now......\"\n	  wget -c http://soft.vpser.net/web/php/php-5.2.17.tar.gz\n	fi\n	if [ -s php-5.2.17-fpm-0.5.14.diff.gz ]; then\n	  echo \"php-5.2.17-fpm-0.5.14.diff.gz [found]\"\n	else\n	  echo \"Error: php-5.2.17-fpm-0.5.14.diff.gz not found!!!download now......\"\n	  wget -c http://soft.vpser.net/web/phpfpm/php-5.2.17-fpm-0.5.14.diff.gz\n	fi\nelse\n	if [ -s php-5.3.17.tar.gz ]; then\n	  echo \"php-5.3.17.tar.gz [found]\"\n	else\n	  echo \"Error: php-5.3.17.tar.gz not found!!!download now......\"\n	  wget -c http://soft.vpser.net/web/php/php-5.3.17.tar.gz\n	fi\nfi\n\nif [ -s memcache-3.0.6.tgz ]; then\n  echo \"memcache-3.0.6.tgz [found]\"\n  else\n  echo \"Error: memcache-3.0.6.tgz not found!!!download now......\"\n  wget -c http://soft.vpser.net/web/memcache/memcache-3.0.6.tgz\nfi\n\nif [ -s pcre-8.12.tar.gz ]; then\n  echo \"pcre-8.12.tar.gz [found]\"\n  else\n  echo \"Error: pcre-8.12.tar.gz not found!!!download now......\"\n  wget -c http://soft.vpser.net/web/pcre/pcre-8.12.tar.gz\nfi\n\nif [ -s nginx-1.2.7.tar.gz ]; then\n  echo \"nginx-1.2.7.tar.gz [found]\"\n  else\n  echo \"Error: nginx-1.2.7.tar.gz not found!!!download now......\"\n  wget -c http://soft.vpser.net/web/nginx/nginx-1.2.7.tar.gz\nfi\n\nif [ \"$isinstallmysql55\" = \"n\" ]; then\n	if [ -s mysql-5.1.60.tar.gz ]; then\n	  echo \"mysql-5.1.60.tar.gz [found]\"\n	  else\n	  echo \"Error: mysql-5.1.60.tar.gz not found!!!download now......\"\n	  wget -c http://soft.vpser.net/datebase/mysql/mysql-5.1.60.tar.gz\n	fi\nelse\n	if [ -s mysql-5.5.28.tar.gz ]; then\n	  echo \"mysql-5.5.28.tar.gz [found]\"\n	  else\n	  echo \"Error: mysql-5.5.28.tar.gz not found!!!download now......\"\n	  wget -c http://soft.vpser.net/datebase/mysql/mysql-5.5.28.tar.gz\n	fi\nfi\n\nif [ -s libiconv-1.14.tar.gz ]; then\n  echo \"libiconv-1.14.tar.gz [found]\"\n  else\n  echo \"Error: libiconv-1.14.tar.gz not found!!!download now......\"\n  wget -c http://soft.vpser.net/web/libiconv/libiconv-1.14.tar.gz\nfi\n\nif [ -s libmcrypt-2.5.8.tar.gz ]; then\n  echo \"libmcrypt-2.5.8.tar.gz [found]\"\n  else\n  echo \"Error: libmcrypt-2.5.8.tar.gz not found!!!download now......\"\n  wget -c  http://soft.vpser.net/web/libmcrypt/libmcrypt-2.5.8.tar.gz\nfi\n\nif [ -s mhash-0.9.9.9.tar.gz ]; then\n  echo \"mhash-0.9.9.9.tar.gz [found]\"\n  else\n  echo \"Error: mhash-0.9.9.9.tar.gz not found!!!download now......\"\n  wget -c http://soft.vpser.net/web/mhash/mhash-0.9.9.9.tar.gz\nfi\n\nif [ -s mcrypt-2.6.8.tar.gz ]; then\n  echo \"mcrypt-2.6.8.tar.gz [found]\"\n  else\n  echo \"Error: mcrypt-2.6.8.tar.gz not found!!!download now......\"\n  wget -c http://soft.vpser.net/web/mcrypt/mcrypt-2.6.8.tar.gz\nfi\n\nif [ -s phpmyadmin-latest.tar.gz ]; then\n  echo \"phpmyadmin-latest.tar.gz [found]\"\n  else\n  echo \"Error: phpmyadmin-latest.tar.gz not found!!!download now......\"\n  wget -c http://soft.vpser.net/datebase/phpmyadmin/phpmyadmin-latest.tar.gz\nfi\n\nif [ -s p.tar.gz ]; then\n  echo \"p.tar.gz [found]\"\n  else\n  echo \"Error: p.tar.gz not found!!!download now......\"\n  wget -c http://soft.vpser.net/prober/p.tar.gz\nfi\n\nif [ -s autoconf-2.13.tar.gz ]; then\n  echo \"autoconf-2.13.tar.gz [found]\"\n  else\n  echo \"Error: autoconf-2.13.tar.gz not found!!!download now......\"\n  wget -c http://soft.vpser.net/lib/autoconf/autoconf-2.13.tar.gz\nfi\necho \"============================check files==================================\"\n}\n\nfunction InstallDependsAndOpt()\n{\ncd $cur_dir\n\ntar zxvf autoconf-2.13.tar.gz\ncd autoconf-2.13/\n./configure --prefix=/usr/local/autoconf-2.13\nmake && make install\ncd ../\n\ntar zxvf libiconv-1.14.tar.gz\ncd libiconv-1.14/\n./configure\nmake && make install\ncd ../\n\ncd $cur_dir\ntar zxvf libmcrypt-2.5.8.tar.gz\ncd libmcrypt-2.5.8/\n./configure\nmake && make install\n/sbin/ldconfig\ncd libltdl/\n./configure --enable-ltdl-install\nmake && make install\ncd ../../\n\ncd $cur_dir\ntar zxvf mhash-0.9.9.9.tar.gz\ncd mhash-0.9.9.9/\n./configure\nmake && make install\ncd ../\n\nln -s /usr/local/lib/libmcrypt.la /usr/lib/libmcrypt.la\nln -s /usr/local/lib/libmcrypt.so /usr/lib/libmcrypt.so\nln -s /usr/local/lib/libmcrypt.so.4 /usr/lib/libmcrypt.so.4\nln -s /usr/local/lib/libmcrypt.so.4.4.8 /usr/lib/libmcrypt.so.4.4.8\nln -s /usr/local/lib/libmhash.a /usr/lib/libmhash.a\nln -s /usr/local/lib/libmhash.la /usr/lib/libmhash.la\nln -s /usr/local/lib/libmhash.so /usr/lib/libmhash.so\nln -s /usr/local/lib/libmhash.so.2 /usr/lib/libmhash.so.2\nln -s /usr/local/lib/libmhash.so.2.0.1 /usr/lib/libmhash.so.2.0.1\n\ncd $cur_dir\ntar zxvf mcrypt-2.6.8.tar.gz\ncd mcrypt-2.6.8/\n./configure\nmake && make install\ncd ../\n\nif [ `getconf WORD_BIT` = '32' ] && [ `getconf LONG_BIT` = '64' ] ; then\n	ln -s /usr/lib64/libpng.* /usr/lib/\n	ln -s /usr/lib64/libjpeg.* /usr/lib/\nfi\n\nulimit -v unlimited\n\nif [ ! `grep -l \"/lib\"    '/etc/ld.so.conf'` ]; then\n	echo \"/lib\" >> /etc/ld.so.conf\nfi\n\nif [ ! `grep -l '/usr/lib'    '/etc/ld.so.conf'` ]; then\n	echo \"/usr/lib\" >> /etc/ld.so.conf\nfi\n\nif [ -d \"/usr/lib64\" ] && [ ! `grep -l '/usr/lib64'    '/etc/ld.so.conf'` ]; then\n	echo \"/usr/lib64\" >> /etc/ld.so.conf\nfi\n\nif [ ! `grep -l '/usr/local/lib'    '/etc/ld.so.conf'` ]; then\n	echo \"/usr/local/lib\" >> /etc/ld.so.conf\nfi\n\nldconfig\n\ncat >>/etc/security/limits.conf<<eof\n* soft nproc 65535\n* hard nproc 65535\n* soft nofile 65535\n* hard nofile 65535\neof\n\ncat >>/etc/sysctl.conf<<eof\nfs.file-max=65535\neof\n}\n\nfunction InstallMySQL51()\n{\necho \"============================Install MySQL 5.1.60==================================\"\ncd $cur_dir\nrm -f /etc/my.cnf\ntar zxvf mysql-5.1.60.tar.gz\ncd mysql-5.1.60/\nif [ $installinnodb = \"y\" ]; then\n./configure --prefix=/usr/local/mysql --with-extra-charsets=complex --enable-thread-safe-client --enable-assembler --with-mysqld-ldflags=-all-static --with-charset=utf8 --enable-thread-safe-client --with-big-tables --with-readline --with-ssl --with-embedded-server --enable-local-infile --with-plugins=innobase\nelse\n./configure --prefix=/usr/local/mysql --with-extra-charsets=complex --enable-thread-safe-client --enable-assembler --with-mysqld-ldflags=-all-static --with-charset=utf8 --enable-thread-safe-client --with-big-tables --with-readline --with-ssl --with-embedded-server --enable-local-infile\nfi\nmake && make install\ncd ../\n\ngroupadd mysql\nuseradd -s /sbin/nologin -M -g mysql mysql\n\ncp /usr/local/mysql/share/mysql/my-medium.cnf /etc/my.cnf\nsed -i 's/skip-locking/skip-external-locking/g' /etc/my.cnf\nif [ $installinnodb = \"y\" ]; then\nsed -i 's:#innodb:innodb:g' /etc/my.cnf\nfi\n/usr/local/mysql/bin/mysql_install_db --user=mysql\nchown -R mysql /usr/local/mysql/var\nchgrp -R mysql /usr/local/mysql/.\ncp /usr/local/mysql/share/mysql/mysql.server /etc/init.d/mysql\nchmod 755 /etc/init.d/mysql\n\ncat > /etc/ld.so.conf.d/mysql.conf<<EOF\n/usr/local/mysql/lib/mysql\n/usr/local/lib\nEOF\nldconfig\n\nln -s /usr/local/mysql/lib/mysql /usr/lib/mysql\nln -s /usr/local/mysql/include/mysql /usr/include/mysql\n/etc/init.d/mysql start\n\nln -s /usr/local/mysql/bin/mysql /usr/bin/mysql\nln -s /usr/local/mysql/bin/mysqldump /usr/bin/mysqldump\nln -s /usr/local/mysql/bin/myisamchk /usr/bin/myisamchk\nln -s /usr/local/mysql/bin/mysqld_safe /usr/bin/mysqld_safe\n\n/usr/local/mysql/bin/mysqladmin -u root password $mysqlrootpwd\n\ncat > /tmp/mysql_sec_script<<EOF\nuse mysql;\nupdate user set password=password('$mysqlrootpwd') where user='root';\ndelete from user where not (user='root') ;\ndelete from user where user='root' and password=''; \ndrop database test;\nDROP USER ''@'%';\nflush privileges;\nEOF\n\n/usr/local/mysql/bin/mysql -u root -p$mysqlrootpwd -h localhost < /tmp/mysql_sec_script\n\nrm -f /tmp/mysql_sec_script\n\n/etc/init.d/mysql restart\n/etc/init.d/mysql stop\necho \"============================MySQL 5.1.60 install completed=========================\"\n}\n\nfunction InstallMySQL55()\n{\necho \"============================Install MySQL 5.5.26==================================\"\ncd $cur_dir\n\nrm -f /etc/my.cnf\ntar zxvf mysql-5.5.28.tar.gz\ncd mysql-5.5.28/\ncmake -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DEXTRA_CHARSETS=all -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DWITH_READLINE=1 -DWITH_SSL=system -DWITH_ZLIB=system -DWITH_EMBEDDED_SERVER=1 -DENABLED_LOCAL_INFILE=1\nmake && make install\n\ngroupadd mysql\nuseradd -s /sbin/nologin -M -g mysql mysql\n\ncp support-files/my-medium.cnf /etc/my.cnf\nsed '/skip-external-locking/i\\datadir = /usr/local/mysql/var' -i /etc/my.cnf\nif [ $installinnodb = \"y\" ]; then\nsed -i 's:#innodb:innodb:g' /etc/my.cnf\nsed -i 's:/usr/local/mysql/data:/usr/local/mysql/var:g' /etc/my.cnf\nelse\nsed '/skip-external-locking/i\\default-storage-engine=MyISAM\\nloose-skip-innodb' -i /etc/my.cnf\nfi\n\n/usr/local/mysql/scripts/mysql_install_db --defaults-file=/etc/my.cnf --basedir=/usr/local/mysql --datadir=/usr/local/mysql/var --user=mysql\nchown -R mysql /usr/local/mysql/var\nchgrp -R mysql /usr/local/mysql/.\ncp support-files/mysql.server /etc/init.d/mysql\nchmod 755 /etc/init.d/mysql\n\ncat > /etc/ld.so.conf.d/mysql.conf<<EOF\n/usr/local/mysql/lib\n/usr/local/lib\nEOF\nldconfig\n\nln -s /usr/local/mysql/lib/mysql /usr/lib/mysql\nln -s /usr/local/mysql/include/mysql /usr/include/mysql\nif [ -d \"/proc/vz\" ];then\nulimit -s unlimited\nfi\n/etc/init.d/mysql start\n\nln -s /usr/local/mysql/bin/mysql /usr/bin/mysql\nln -s /usr/local/mysql/bin/mysqldump /usr/bin/mysqldump\nln -s /usr/local/mysql/bin/myisamchk /usr/bin/myisamchk\nln -s /usr/local/mysql/bin/mysqld_safe /usr/bin/mysqld_safe\n\n/usr/local/mysql/bin/mysqladmin -u root password $mysqlrootpwd\n\ncat > /tmp/mysql_sec_script<<EOF\nuse mysql;\nupdate user set password=password('$mysqlrootpwd') where user='root';\ndelete from user where not (user='root') ;\ndelete from user where user='root' and password=''; \ndrop database test;\nDROP USER ''@'%';\nflush privileges;\nEOF\n\n/usr/local/mysql/bin/mysql -u root -p$mysqlrootpwd -h localhost < /tmp/mysql_sec_script\n\nrm -f /tmp/mysql_sec_script\n\n/etc/init.d/mysql restart\n/etc/init.d/mysql stop\necho \"============================MySQL 5.5.26 install completed=========================\"\n}\n\nfunction InstallPHP52()\n{\necho \"============================Install PHP 5.2.17=========================\"\ncd $cur_dir\nexport PHP_AUTOCONF=/usr/local/autoconf-2.13/bin/autoconf\nexport PHP_AUTOHEADER=/usr/local/autoconf-2.13/bin/autoheader\ntar zxvf php-5.2.17.tar.gz\ngzip -cd php-5.2.17-fpm-0.5.14.diff.gz | patch -d php-5.2.17 -p1\ncd php-5.2.17/\nwget -c http://soft.vpser.net/web/php/bug/php-5.2.17-max-input-vars.patch\npatch -p1 < php-5.2.17-max-input-vars.patch\n./buildconf --force\n./configure --prefix=/usr/local/php --with-config-file-path=/usr/local/php/etc --with-mysql=/usr/local/mysql --with-mysqli=/usr/local/mysql/bin/mysql_config --with-iconv-dir --with-freetype-dir --with-jpeg-dir --with-png-dir --with-zlib --with-libxml-dir=/usr --enable-xml --disable-rpath --enable-discard-path --enable-magic-quotes --enable-safe-mode --enable-bcmath --enable-shmop --enable-sysvsem --enable-inline-optimization --with-curl --with-curlwrappers --enable-mbregex --enable-fastcgi --enable-fpm --enable-force-cgi-redirect --enable-mbstring --with-mcrypt --enable-ftp --with-gd --enable-gd-native-ttf --with-openssl --with-mhash --enable-pcntl --enable-sockets --with-xmlrpc --enable-zip --enable-soap --without-pear --with-gettext --with-mime-magic \nmake ZEND_EXTRA_LIBS='-liconv'\nmake install\n\nmkdir -p /usr/local/php/etc\ncp php.ini-dist /usr/local/php/etc/php.ini\ncd ../\n\nrm -f /usr/bin/php\nln -s /usr/local/php/bin/php /usr/bin/php\nln -s /usr/local/php/bin/phpize /usr/bin/phpize\nln -s /usr/local/php/sbin/php-fpm /usr/bin/php-fpm\n\ncd $cur_dir/php-5.2.17/ext/pdo_mysql/\n/usr/local/php/bin/phpize\n./configure --with-php-config=/usr/local/php/bin/php-config --with-pdo-mysql=/usr/local/mysql\nmake && make install\ncd $cur_dir/\n\n# php extensions\nsed -i 's#extension_dir = \"./\"#extension_dir = \"/usr/local/php/lib/php/extensions/no-debug-non-zts-20060613/\"\\nextension = \"pdo_mysql.so\"\\n#' /usr/local/php/etc/php.ini\nsed -i 's#output_buffering = Off#output_buffering = On#' /usr/local/php/etc/php.ini\nsed -i 's/post_max_size = 8M/post_max_size = 50M/g' /usr/local/php/etc/php.ini\nsed -i 's/upload_max_filesize = 2M/upload_max_filesize = 50M/g' /usr/local/php/etc/php.ini\nsed -i 's/;date.timezone =/date.timezone = PRC/g' /usr/local/php/etc/php.ini\nsed -i 's/short_open_tag = Off/short_open_tag = On/g' /usr/local/php/etc/php.ini\nsed -i 's/; cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /usr/local/php/etc/php.ini\nsed -i 's/; cgi.fix_pathinfo=0/cgi.fix_pathinfo=0/g' /usr/local/php/etc/php.ini\nsed -i 's/max_execution_time = 30/max_execution_time = 300/g' /usr/local/php/etc/php.ini\nsed -i 's/disable_functions =.*/disable_functions = passthru,exec,system,chroot,scandir,chgrp,chown,shell_exec,proc_open,proc_get_status,ini_alter,ini_restore,dl,openlog,syslog,readlink,symlink,popepassthru,stream_socket_server,fsocket/g' /usr/local/php/etc/php.ini\n\nif [ `getconf WORD_BIT` = '32' ] && [ `getconf LONG_BIT` = '64' ] ; then\n	wget -c http://soft.vpser.net/web/zend/ZendOptimizer-3.3.9-linux-glibc23-x86_64.tar.gz\n	tar zxvf ZendOptimizer-3.3.9-linux-glibc23-x86_64.tar.gz\n	mkdir -p /usr/local/zend/\n	cp ZendOptimizer-3.3.9-linux-glibc23-x86_64/data/5_2_x_comp/ZendOptimizer.so /usr/local/zend/\nelse\n	wget -c http://soft.vpser.net/web/zend/ZendOptimizer-3.3.9-linux-glibc23-i386.tar.gz\n	tar zxvf ZendOptimizer-3.3.9-linux-glibc23-i386.tar.gz\n	mkdir -p /usr/local/zend/\n	cp ZendOptimizer-3.3.9-linux-glibc23-i386/data/5_2_x_comp/ZendOptimizer.so /usr/local/zend/\nfi\n\ncat >>/usr/local/php/etc/php.ini<<EOF\n;eaccelerator\n\n;ionCube\n\n[Zend Optimizer] \nzend_optimizer.optimization_level=1 \nzend_extension=\"/usr/local/zend/ZendOptimizer.so\" \nEOF\n\n\nrm -f /usr/local/php/etc/php-fpm.conf\ncp conf/php-fpm.conf /usr/local/php/etc/php-fpm.conf\n\nwget -c http://soft.vpser.net/lnmp/ext/init.d.php-fpm5.2\ncp init.d.php-fpm5.2 /etc/init.d/php-fpm\nchmod +x /etc/init.d/php-fpm\ncp $cur_dir/lnmp /root/lnmp\nchmod +x /root/lnmp\necho \"============================PHP 5.2.17 install completed======================\"\n}\n\nfunction InstallPHP53()\n{\necho \"============================Install PHP 5.3.17================================\"\ncd $cur_dir\nexport PHP_AUTOCONF=/usr/local/autoconf-2.13/bin/autoconf\nexport PHP_AUTOHEADER=/usr/local/autoconf-2.13/bin/autoheader\ntar zxvf php-5.3.17.tar.gz\ncd php-5.3.17/\n./configure --prefix=/usr/local/php --with-config-file-path=/usr/local/php/etc --enable-fpm --with-fpm-user=www --with-fpm-group=www --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-iconv-dir --with-freetype-dir --with-jpeg-dir --with-png-dir --with-zlib --with-libxml-dir=/usr --enable-xml --disable-rpath --enable-magic-quotes --enable-safe-mode --enable-bcmath --enable-shmop --enable-sysvsem --enable-inline-optimization --with-curl --with-curlwrappers --enable-mbregex --enable-mbstring --with-mcrypt --enable-ftp --with-gd --enable-gd-native-ttf --with-openssl --with-mhash --enable-pcntl --enable-sockets --with-xmlrpc --enable-zip --enable-soap --without-pear --with-gettext --disable-fileinfo\n\nmake ZEND_EXTRA_LIBS='-liconv'\nmake install\n\nrm -f /usr/bin/php\nln -s /usr/local/php/bin/php /usr/bin/php\nln -s /usr/local/php/bin/phpize /usr/bin/phpize\nln -s /usr/local/php/sbin/php-fpm /usr/bin/php-fpm\n\necho \"Copy new php configure file.\"\nmkdir -p /usr/local/php/etc\ncp php.ini-production /usr/local/php/etc/php.ini\n\ncd $cur_dir\n# php extensions\necho \"Modify php.ini......\"\nsed -i 's/post_max_size = 8M/post_max_size = 50M/g' /usr/local/php/etc/php.ini\nsed -i 's/upload_max_filesize = 2M/upload_max_filesize = 50M/g' /usr/local/php/etc/php.ini\nsed -i 's/;date.timezone =/date.timezone = PRC/g' /usr/local/php/etc/php.ini\nsed -i 's/short_open_tag = Off/short_open_tag = On/g' /usr/local/php/etc/php.ini\nsed -i 's/; cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /usr/local/php/etc/php.ini\nsed -i 's/; cgi.fix_pathinfo=0/cgi.fix_pathinfo=0/g' /usr/local/php/etc/php.ini\nsed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /usr/local/php/etc/php.ini\nsed -i 's/max_execution_time = 30/max_execution_time = 300/g' /usr/local/php/etc/php.ini\nsed -i 's/register_long_arrays = On/;register_long_arrays = On/g' /usr/local/php/etc/php.ini\nsed -i 's/magic_quotes_gpc = On/;magic_quotes_gpc = On/g' /usr/local/php/etc/php.ini\nsed -i 's/disable_functions =.*/disable_functions = passthru,exec,system,chroot,scandir,chgrp,chown,shell_exec,proc_open,proc_get_status,ini_alter,ini_restore,dl,openlog,syslog,readlink,symlink,popepassthru,stream_socket_server/g' /usr/local/php/etc/php.ini\n\necho \"Install ZendGuardLoader for PHP 5.3\"\nif [ `getconf WORD_BIT` = '32' ] && [ `getconf LONG_BIT` = '64' ] ; then\n	wget -c http://downloads.zend.com/guard/5.5.0/ZendGuardLoader-php-5.3-linux-glibc23-x86_64.tar.gz\n	tar zxvf ZendGuardLoader-php-5.3-linux-glibc23-x86_64.tar.gz\n	mkdir -p /usr/local/zend/\n	cp ZendGuardLoader-php-5.3-linux-glibc23-x86_64/php-5.3.x/ZendGuardLoader.so /usr/local/zend/\nelse\n	wget -c http://downloads.zend.com/guard/5.5.0/ZendGuardLoader-php-5.3-linux-glibc23-i386.tar.gz\n	tar zxvf ZendGuardLoader-php-5.3-linux-glibc23-i386.tar.gz\n	mkdir -p /usr/local/zend/\n	cp ZendGuardLoader-php-5.3-linux-glibc23-i386/php-5.3.x/ZendGuardLoader.so /usr/local/zend/\nfi\n\necho \"Write ZendGuardLoader to php.ini......\"\ncat >>/usr/local/php/etc/php.ini<<EOF\n;eaccelerator\n\n;ionCube\n\n[Zend Optimizer] \nzend_extension=/usr/local/zend/ZendGuardLoader.so\nEOF\n\necho \"Creating new php-fpm configure file......\"\ncat >/usr/local/php/etc/php-fpm.conf<<EOF\n[global]\npid = /usr/local/php/var/run/php-fpm.pid\nerror_log = /usr/local/php/var/log/php-fpm.log\nlog_level = notice\n\n[www]\nlisten = /tmp/php-cgi.sock\nuser = www\ngroup = www\npm = dynamic\npm.max_children = 10\npm.start_servers = 2\npm.min_spare_servers = 1\npm.max_spare_servers = 6\nrequest_terminate_timeout = 100\nEOF\n\necho \"Copy php-fpm init.d file......\"\ncp $cur_dir/php-5.3.17/sapi/fpm/init.d.php-fpm /etc/init.d/php-fpm\nchmod +x /etc/init.d/php-fpm\n\ncp $cur_dir/lnmp /root/lnmp\nchmod +x /root/lnmp\nsed -i 's:/usr/local/php/logs:/usr/local/php/var/run:g' /root/lnmp\necho \"============================PHP 5.3.17 install completed======================\"\n}\n\nfunction InstallNginx()\n{\necho \"============================Install Nginx=================================\"\ngroupadd www\nuseradd -s /sbin/nologin -g www www\ncd $cur_dir\ntar zxvf pcre-8.12.tar.gz\ncd pcre-8.12/\n./configure\nmake && make install\ncd ../\n\nldconfig\n\ntar zxvf nginx-1.2.7.tar.gz\ncd nginx-1.2.7/\n./configure --user=www --group=www --prefix=/usr/local/nginx --with-http_stub_status_module --with-http_ssl_module --with-http_gzip_static_module --with-ipv6\nmake && make install\ncd ../\n\nln -s /usr/local/nginx/sbin/nginx /usr/bin/nginx\n\nrm -f /usr/local/nginx/conf/nginx.conf\ncd $cur_dir\ncp conf/nginx.conf /usr/local/nginx/conf/nginx.conf\ncp conf/dabr.conf /usr/local/nginx/conf/dabr.conf\ncp conf/discuz.conf /usr/local/nginx/conf/discuz.conf\ncp conf/sablog.conf /usr/local/nginx/conf/sablog.conf\ncp conf/typecho.conf /usr/local/nginx/conf/typecho.conf\ncp conf/wordpress.conf /usr/local/nginx/conf/wordpress.conf\ncp conf/discuzx.conf /usr/local/nginx/conf/discuzx.conf\ncp conf/none.conf /usr/local/nginx/conf/none.conf\ncp conf/wp2.conf /usr/local/nginx/conf/wp2.conf\ncp conf/phpwind.conf /usr/local/nginx/conf/phpwind.conf\ncp conf/shopex.conf /usr/local/nginx/conf/shopex.conf\ncp conf/dedecms.conf /usr/local/nginx/conf/dedecms.conf\ncp conf/drupal.conf /usr/local/nginx/conf/drupal.conf\ncp conf/ecshop.conf /usr/local/nginx/conf/ecshop.conf\n\nrm -f /usr/local/nginx/conf/fcgi.conf\ncp conf/fcgi.conf /usr/local/nginx/conf/fcgi.conf\n\ncd $cur_dir\ncp vhost.sh /root/vhost.sh\nchmod +x /root/vhost.sh\n\nmkdir -p /home/wwwroot/default\nchmod +w /home/wwwroot/default\nmkdir -p /home/wwwlogs\nchmod 777 /home/wwwlogs\n\nchown -R www:www /home/wwwroot/default\n}\n\nfunction CreatPHPTools()\n{\n	echo \"Create PHP Info Tool...\"\ncat >/home/wwwroot/default/phpinfo.php<<eof\n<?\nphpinfo();\n?>\neof\n\necho \"Copy PHP Prober...\"\ncd $cur_dir\ntar zxvf p.tar.gz\ncp p.php /home/wwwroot/default/p.php\n\ncp conf/index.html /home/wwwroot/default/index.html\necho \"============================Install PHPMyAdmin=================================\"\ntar zxf phpmyadmin-latest.tar.gz\nmv phpMyAdmin-3.4.8-all-languages /home/wwwroot/default/phpmyadmin/\ncp conf/config.inc.php /home/wwwroot/default/phpmyadmin/config.inc.php\nsed -i 's/LNMPORG/LNMP.org'$RANDOM'VPSer.net/g' /home/wwwroot/default/phpmyadmin/config.inc.php\nmkdir /home/wwwroot/default/phpmyadmin/upload/\nmkdir /home/wwwroot/default/phpmyadmin/save/\nchmod 755 -R /home/wwwroot/default/phpmyadmin/\nchown www:www -R /home/wwwroot/default/phpmyadmin/\necho \"============================phpMyAdmin install completed=================================\"\n}\n\nfunction AddAndStartup()\n{\necho \"============================add nginx and php-fpm on startup============================\"\necho \"Download new nginx init.d file......\"\nwget -c http://soft.vpser.net/lnmp/ext/init.d.nginx\ncp init.d.nginx /etc/init.d/nginx\nchmod +x /etc/init.d/nginx\n\nchkconfig --level 345 php-fpm on\nchkconfig --level 345 nginx on\nchkconfig --level 345 mysql on\necho \"===========================add nginx and php-fpm on startup completed====================\"\necho \"Starting LNMP...\"\n/etc/init.d/mysql start\n/etc/init.d/php-fpm start\n/etc/init.d/nginx start\n\n#add 80 port to iptables\nif [ -s /sbin/iptables ]; then\n/sbin/iptables -I INPUT -p tcp --dport 80 -j ACCEPT\n/sbin/iptables-save\nfi\n}\n\nfunction CheckInstall()\n{\necho \"===================================== Check install ===================================\"\nclear\nisnginx=\"\"\nismysql=\"\"\nisphp=\"\"\necho \"Checking...\"\nif [ -s /usr/local/nginx ] && [ -s /usr/local/nginx/sbin/nginx ]; then\n  echo \"Nginx: OK\"\n  isnginx=\"ok\"\n  else\n  echo \"Error: /usr/local/nginx not found!!!Nginx install failed.\"\nfi\n\nif [ -s /usr/local/php/sbin/php-fpm ] && [ -s /usr/local/php/etc/php.ini ] && [ -s /usr/local/php/bin/php ]; then\n  echo \"PHP: OK\"\n  echo \"PHP-FPM: OK\"\n  isphp=\"ok\"\n  else\n  echo \"Error: /usr/local/php not found!!!PHP install failed.\"\nfi\n\nif [ -s /usr/local/mysql ] && [ -s /usr/local/mysql/bin/mysql ]; then\n  echo \"MySQL: OK\"\n  ismysql=\"ok\"\n  else\n  echo \"Error: /usr/local/mysql not found!!!MySQL install failed.\"\nfi\nif [ \"$isnginx\" = \"ok\" ] && [ \"$ismysql\" = \"ok\" ] && [ \"$isphp\" = \"ok\" ]; then\necho \"Install lnmp 1.0 completed! enjoy it.\"\necho \"=========================================================================\"\necho \"LNMP V1.0 for CentOS/RadHat Linux VPS  Written by Licess \"\necho \"=========================================================================\"\necho \"\"\necho \"For more information please visit http://www.lnmp.org/\"\necho \"\"\necho \"lnmp status manage: /root/lnmp {start|stop|reload|restart|kill|status}\"\necho \"default mysql root password:$mysqlrootpwd\"\necho \"phpinfo : http://yourIP/phpinfo.php\"\necho \"phpMyAdmin : http://yourIP/phpmyadmin/\"\necho \"Prober : http://yourIP/p.php\"\necho \"Add VirtualHost : /root/vhost.sh\"\necho \"\"\necho \"The path of some dirs:\"\necho \"mysql dir:   /usr/local/mysql\"\necho \"php dir:     /usr/local/php\"\necho \"nginx dir:   /usr/local/nginx\"\necho \"web dir :     /home/wwwroot/default\"\necho \"\"\necho \"=========================================================================\"\n/root/lnmp status\nnetstat -ntl\nelse\necho \"Sorry,Failed to install LNMP!\"\necho \"Please visit http://bbs.vpser.net/forum-25-1.html feedback errors and logs.\"\necho \"You can download /root/lnmp-install.log from your server,and upload lnmp-install.log to LNMP Forum.\"\nfi\n}\n\nInitInstall 2>&1 | tee /root/lnmp-install.log\nCheckAndDownloadFiles 2>&1 | tee -a /root/lnmp-install.log\nInstallDependsAndOpt 2>&1 | tee -a /root/lnmp-install.log\nif [ \"$isinstallmysql55\" = \"n\" ]; then\n	InstallMySQL51 2>&1 | tee -a /root/lnmp-install.log\nelse\n	InstallMySQL55 2>&1 | tee -a /root/lnmp-install.log\nfi\nif [ \"$isinstallphp53\" = \"n\" ]; then\n	InstallPHP52 2>&1 | tee -a /root/lnmp-install.log\nelse\n	InstallPHP53 2>&1 | tee -a /root/lnmp-install.log\nfi\nInstallNginx 2>&1 | tee -a /root/lnmp-install.log\nCreatPHPTools 2>&1 | tee -a /root/lnmp-install.log\nAddAndStartup 2>&1 | tee -a /root/lnmp-install.log\nCheckInstall 2>&1 | tee -a /root/lnmp-install.log",
+			"file": "/C/Users/Administrator/Desktop/lnmp1.0/centos.sh",
+			"file_size": -1,
+			"file_write_time": -1,
+			"settings":
+			{
+				"buffer_size": 28546,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"selected_items":
+		[
+			[
+				"packe",
+				"Package Control: Disable Package→禁用插件"
+			],
+			[
+				"pack",
+				"Package Control: Disable Package→禁用插件"
+			],
+			[
+				"install",
+				"Package Control: Install Package→安装插件"
+			],
+			[
+				"Package Control: install",
+				"Package Control: Install Package→安装插件"
+			],
+			[
+				"Package Control:  instal",
+				"Package Control: Install Package→安装插件"
+			]
+		],
+		"width": 608.0
+	},
+	"console":
+	{
+		"height": 146.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/E/src/lnmp"
+	],
+	"file_history":
+	[
+		"/E/src/lnmp/centos.sh",
+		"/C/Users/Administrator/Desktop/lnmp1.1/centos.sh",
+		"/C/Users/Administrator/Desktop/lnmp1.1/lnmp",
+		"/E/src/lnmp/lnmp",
+		"/E/src/lnmp/etc/init.d/init.d.httpd",
+		"/E/src/lnmp/etc/init.d/init.d.proftpd",
+		"/E/src/lnmp/etc/init.d/init.d.php-fpm5.2",
+		"/C/Users/Administrator/Desktop/index.html",
+		"/C/Users/Administrator/Desktop/lnmp1.2/include/init.sh",
+		"/E/src/lnmp/osx.sh",
+		"/C/Users/Administrator/Desktop/lnmp1.2/include/end.sh",
+		"/E/src/lnmp/src/.gitkeep",
+		"/C/Users/Administrator/Desktop/lnmp0.1/install.sh",
+		"/E/src/lnmp/php5.2.17.sh",
+		"/E/src/lnmp/pureftpd.sh",
+		"/E/src/lnmp/opcache.sh",
+		"/E/src/lnmp/ubuntu.sh",
+		"/C/Users/Administrator/Desktop/Server/nginx.conf",
+		"/E/src/lnmp/etc/nginx/nginx.conf",
+		"/E/src/lnmp/etc/pure-ftpd.conf",
+		"/E/src/lnmp/etc/nginx/proxy-pass-php.conf",
+		"/E/src/lnmp/etc/nginx/proxy_params",
+		"/E/src/lnmp/etc/nginx/proxy.conf",
+		"/C/Users/Administrator/Desktop/lnmp1.2/conf/nginx_a.conf",
+		"/C/Users/Administrator/Desktop/lnmp1.2/conf/nginx.conf",
+		"/C/Users/Administrator/Desktop/lnmp1.2/conf/lnmp",
+		"/C/Users/Administrator/Desktop/lnmp1.2/conf/ocp.php",
+		"/C/Users/Administrator/Desktop/lnmp1.2/conf/pure-ftpd.conf",
+		"/C/Users/Administrator/Desktop/lnmp1.2/conf/config.inc.php",
+		"/C/Users/Administrator/Desktop/lnmp1.2/conf/301.conf",
+		"/C/Users/Administrator/Desktop/lnmp1.2/conf/enable-php.conf",
+		"/E/src/lnmp/etc/lnmp",
+		"/E/src/lnmp/etc/nginx/rewrite/wp2.conf",
+		"/E/src/lnmp/etc/nginx/rewrite/wordpress.conf",
+		"/E/src/lnmp/etc/nginx/rewrite/none.conf",
+		"/E/src/lnmp/etc/nginx/rewrite/ecshop.conf",
+		"/E/src/lnmp/etc/nginx/rewrite/discuzx2.conf",
+		"/E/src/lnmp/etc/nginx/rewrite/discuzx.conf",
+		"/E/src/lnmp/etc/nginx/rewrite/discuz.conf",
+		"/E/src/lnmp/etc/nginx/rewrite/dedecms.conf",
+		"/C/Users/Administrator/Desktop/lnmp1.2/conf/pathinfo.conf",
+		"/C/Users/Administrator/Desktop/lnmp1.2/conf/php-fpm5.2.conf",
+		"/C/Users/Administrator/Desktop/lnmp1.2/conf/proxy.conf",
+		"/C/Users/Administrator/Desktop/lnmp1.2/conf/enable-php-pathinfo.conf",
+		"/E/src/lnmp/etc/nginx/sites-available/default.conf",
+		"/C/Users/Administrator/Desktop/lnmp1.2/include/php.sh",
+		"/E/src/lnmp/etc/nginx/sites-enabled/dev.leadlife.cn.conf",
+		"/C/Users/Administrator/Desktop/lnmp1.2/include/main.sh",
+		"/C/Users/Administrator/Desktop/2.html",
+		"/E/src/speedtest/resources/views/show.blade.php",
+		"/E/src/speedtest/resources/views/welcome.blade.php",
+		"/C/Users/Administrator/Desktop/lnmp/imageMagick.sh",
+		"/C/Users/Administrator/Desktop/lnmp/osx.sh",
+		"/C/Users/Administrator/Desktop/lnmp/centos.sh",
+		"/C/Users/Administrator/Desktop/lnmp/init.d/php-fpm",
+		"/C/Users/Administrator/Desktop/lnmp/init.d/nginx",
+		"/C/Users/Administrator/Desktop/init.d.php-fpm",
+		"/C/Users/Administrator/Desktop/lnmp1.2/init.d/init.d.nginx",
+		"/C/Users/Administrator/Desktop/nginx",
+		"/C/Users/Administrator/Desktop/PortGroper3/src/PortGroperGUI.java",
+		"/C/Users/Administrator/Desktop/init.d.nginx",
+		"/E/src/myip/webroot/assets/js/modules/test.js",
+		"/E/src/myip/resources/views/test.blade.php",
+		"/E/src/codeforge/language/language.php",
+		"/E/src/codeforge/cache/codeforge.l68.net.tpl.1gz9iqb",
+		"/E/src/codeforge/app/dlfile.php",
+		"/E/src/codeforge/index.php",
+		"/E/src/zhangnei/phpcms/event.php",
+		"/E/src/zhangnei/phpcms/libs/functions/autoload/time.func.php",
+		"/E/src/zhangnei/phpcms/libs/classes/form.class.php",
+		"/E/src/codeforge/admin11055/Admin/Common/common.php",
+		"/E/src/codeforge/admin11055/Admin/Tpl/Admin/index.html",
+		"/E/src/codeforge/include/db.util.php",
+		"/E/src/codeforge/include/include_all.php",
+		"/E/src/zhangnei/phpcms/libs/functions/autoload/event.func.php",
+		"/E/src/codeforge/ui_cn/events_201507jn.html",
+		"/E/src/codeforge/temp/codeforge.l68.net.tpl.1gz9iqb",
+		"/E/src/myip/app/Http/Controllers/TestController.php",
+		"/E/src/myip/webroot/web.config",
+		"/E/src/speedtest/resources/views/show_src.blade.php",
+		"/E/src/speedtest/resources/views/welcome_src.blade.php",
+		"/E/src/speedtest/resources/views/report_src.blade.php",
+		"/E/src/speedtest/resources/views/contact_src.blade.php",
+		"/E/src/speedtest/webroot/assets/js/report.js",
+		"/E/src/speedtest/app/Http/Controllers/ApiController.php",
+		"/E/src/speedtest/webroot/assets/echart/corejs/optionDNcomparison.js",
+		"/E/src/speedtest/webroot/assets/echart/corejs/optionUPcomparison.js",
+		"/E/src/speedtest/resources/views/adv_src.blade.php",
+		"/E/src/speedtest/webroot/web.config",
+		"/E/src/speedtest/webroot/SpeedTest/SpeedTest.src.html",
+		"/E/src/speedtest/webroot/SpeedTest/index.php",
+		"/C/Users/Administrator/Desktop/User_agent.php",
+		"/E/src/speedtest/webroot/assets/js/jquery.speedtest.src.js",
+		"/E/src/speedtest/resources/views/report.blade.php",
+		"/E/src/speedtest/speedtest_flash_as3_project/src/testupload.php",
+		"/E/src/speedtest/report.php",
+		"/E/src/speedtest/webroot/assets/echart/corejs/data-china.js",
+		"/E/src/speedtest/webroot/assets/echart/corejs/data-formatter.js",
+		"/E/src/speedtest/webroot/assets/echart/corejs/optionDXdownload.js",
+		"/E/src/speedtest/webroot/assets/echart/corejs/optionDXupload.js",
+		"/E/src/speedtest/webroot/assets/echart/corejs/optionLTdownload.js",
+		"/E/src/speedtest/webroot/assets/js/report/optionDXupload.js",
+		"/E/src/speedtest/webroot/assets/js/report/optionDXdownload.js",
+		"/E/src/speedtest/webroot/assets/echart/corejs/optionLTupload.js",
+		"/E/src/speedtest/app/Report.php",
+		"/E/src/speedtest/app/TestPoint.php",
+		"/C/Users/Administrator/Desktop/lnmp1.2/install.sh",
+		"/C/Users/Administrator/Desktop/lnmp1.2/include/mariadb.sh",
+		"/E/src/speedtest/resources/views/mobile.blade.php",
+		"/E/src/myip/app/Http/Middleware/FangDao.php",
+		"/E/src/myip/app/Http/Middleware/Authenticate.php",
+		"/E/src/myip/app/Http/Middleware/VerifyCsrfToken - 副本.php",
+		"/E/src/speedtest/app/Http/Controllers/WelcomeController.php",
+		"/E/src/speedtest/app/Http/routes.php",
+		"/E/src/myip/app/KeywordIndexs.php",
+		"/D/Server/MongoDB/mongod.cfg",
+		"/E/src/myip/cheome/js/tr.js",
+		"/E/src/myip/storage/app/cookie/miibeian.gov.cn.cookie",
+		"/E/src/speedtest/webroot/SpeedTest/SpeedTest.html",
+		"/E/src/speedtest/webroot/SpeedTest/SpeedTest_moblie.html",
+		"/E/src/speedtest/webroot/SpeedTest/SpeedTest_moblie.src.html",
+		"/E/src/speedtest/resources/views/mobile_src.blade.php",
+		"/E/src/speedtest/webroot/assets/css/style.css",
+		"/E/src1/.metadata/.plugins/org.eclipse.ui.workbench/workingsets.xml",
+		"/E/src1/.metadata/.plugins/org.eclipse.php.core/__language__/5cac87b8/Phar.php",
+		"/E/src1/.metadata/.plugins/org.eclipse.php.formatter.ui/dialog_settings.xml",
+		"/E/src1/.metadata/.plugins/org.eclipse.php.ui/dialog_settings.xml",
+		"/C/Users/Administrator/Desktop/2.php"
+	],
+	"find":
+	{
+		"height": 38.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"DEXTRA_CHARSETS",
+			"DWITH_ZLIB",
+			"mysql",
+			"Get_Dist_Name",
+			"formatHeight",
+			"Path.js",
+			"zrender",
+			"\n                ",
+			"console",
+			"putResult",
+			"mtip",
+			"shake",
+			"1m",
+			"jquery.speedtest.js",
+			"ApiUrl",
+			"ServerUrl",
+			"zip",
+			"session",
+			"Base",
+			"update_testpoint",
+			"'])",
+			"getIpInfo",
+			"ipinfo",
+			"getTestPoints",
+			"l68",
+			"bdsharebuttonbox",
+			"www.speedtest.cn",
+			"j.php",
+			"sxuchao",
+			"function",
+			"T",
+			"www.speedtest.cn",
+			"http://www.speedtest.cn",
+			"downloadSpeedTest",
+			"setSpeed",
+			"_compile_data",
+			"nowDownloadSpeed",
+			"OPTION_APPCONFIG",
+			"a8426pf",
+			"a8426ops",
+			"setBasePath",
+			"getModule",
+			"getModuleName",
+			"radius",
+			"encryption",
+			"getHelper",
+			"app-backto-top",
+			"top",
+			"isObject",
+			"register",
+			"notifyAudio",
+			"isObject",
+			"JSON",
+			"isArray",
+			"isObject",
+			"resolvePaths",
+			"setConfigurationFile",
+			"CONFIG_FILE",
+			"setConfigurationFile",
+			"new",
+			"run",
+			"noprealloc",
+			"dispatch",
+			"_buildParameter",
+			"dependencyInjector",
+			"cookies",
+			"MimeType",
+			"Mine",
+			"setAuthorization",
+			"protected",
+			"resolveRequestUri",
+			"method",
+			"Release",
+			"BUILD_DIR",
+			"Phalcon",
+			"InvalidConfigException",
+			"port",
+			"get",
+			"getUser",
+			"getUserPort",
+			"getHeader",
+			"instanceof",
+			"logException",
+			"getViewPath",
+			"defaultFormatters",
+			"setBasePath",
+			"controllerMap",
+			"ip",
+			"renderException",
+			"onUncaughtLowSeverity",
+			"onUncaughtException",
+			"goods_query",
+			".ecpss",
+			"get_curr_info",
+			"marketlist"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"userInfo",
+			"speedtest.l68.net",
+			"http://speedtest.l68.net",
+			"public",
+			"Leaps"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/C/Users/Administrator/Desktop/lnmp0.9/centos.sh",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 19485,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								8113,
+								8113
+							]
+						],
+						"settings":
+						{
+							"origin_encoding": "ASCII",
+							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 6121.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/C/Users/Administrator/Desktop/lnmp1.0/centos.sh",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 28546,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								27531,
+								27531
+							]
+						],
+						"settings":
+						{
+							"origin_encoding": "ASCII",
+							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 17490.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 30.0
+	},
+	"input":
+	{
+		"height": 34.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.9o://E:\\Projects\\test":
+	{
+		"height": 118.0
+	},
+	"output.MarGo-output":
+	{
+		"height": 28.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "lnmp",
+	"replace":
+	{
+		"height": 56.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+			[
+				"",
+				"E:\\src\\lnmp\\lnmp.sublime-workspace"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 162.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
