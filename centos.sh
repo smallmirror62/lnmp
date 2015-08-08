@@ -226,3 +226,26 @@ chmod +x /etc/init.d/nginx
 
 chkconfig nginx on
 chkconfig php-fpm on
+
+
+tar zxf mysql-5.6.26.tar.gz
+cd mysql-5.6.26
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DMYSQL_DATADIR=/var/lib/mysql/data -DSYSCONFDIR=/etc DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DWITH_SSL=system -DWITH_ZLIB=system -DWITH_EMBEDDED_SERVER=1 -DMYSQL_UNIX_ADDR=/tmp/mysql.sock -DMYSQL_TCP_PORT=3306 -DENABLED_LOCAL_INFILE=1 -DEXTRA_CHARSETS=all -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci
+
+make && make install
+
+groupadd mysql
+useradd -s /sbin/nologin -M -g mysql mysql
+
+cp support-files/my-medium.cnf /etc/my.cnf
+/usr/local/mysql/scripts/mysql_install_db --defaults-file=/etc/my.cnf --basedir=/usr/local/mysql --datadir=/usr/local/mysql/var --user=mysql
+chown -R mysql /usr/local/mysql/var
+chgrp -R mysql /usr/local/mysql/.
+cp support-files/mysql.server /etc/init.d/mysql
+chmod 755 /etc/init.d/mysql
+
+#Centos 7
+firewall-cmd --zone=public --add-port=80/tcp --permanent
+firewall-cmd --zone=public --add-port=3306/tcp --permanent
+firewall-cmd --zone=public --add-port=21/tcp --permanent
+firewall-cmd --reload
