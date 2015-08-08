@@ -18,54 +18,53 @@ echo "For more information please visit http://www.tintsoft.com/"
 echo "========================================================================="
 cur_dir=$(pwd)
 
-function InitInstall()
-{
-	function InitInstall()
-{
-	cat /etc/issue
-	uname -a
-	MemTotal=`free -m | grep Mem | awk '{print  $2}'`  
-	echo -e "\n Memory is: ${MemTotal} MB "
-	#Set timezone
-	rm -rf /etc/localtime
-	ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+if [ "$1" != "--help" ]; then
 
-	yum install -y ntp
-	ntpdate -u pool.ntp.org
-	date
+	get_char()
+	{
+	SAVEDSTTY=`stty -g`
+	stty -echo
+	stty cbreak
+	dd if=/dev/tty bs=1 count=1 2> /dev/null
+	stty -raw
+	stty echo
+	stty $SAVEDSTTY
+	}
+	echo ""
+	echo "Press any key to start..."
+	char=`get_char`
 
-	rpm -qa|grep httpd
-	rpm -e httpd
-	rpm -qa|grep mysql
-	rpm -e mysql
-	rpm -qa|grep php
-	rpm -e php
+#Set timezone
+rm -rf /etc/localtime
+ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
-	yum -y remove httpd*
-	yum -y remove php*
-	yum -y remove mysql-server mysql
-	yum -y remove php-mysql
+yum install -y ntp
+ntpdate -u pool.ntp.org
+date
 
-	yum -y install yum-fastestmirror
-	yum -y remove httpd
-	#yum -y update
+rpm -qa|grep  httpd
+rpm -e httpd
+rpm -qa|grep mysql
+rpm -e mysql
+rpm -qa|grep php
+rpm -e php
 
-	#Disable SeLinux
-	if [ -s /etc/selinux/config ]; then
-	sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
-	fi
+yum -y remove httpd*
+yum -y remove php*
+yum -y remove mysql-server mysql
+yum -y remove php-mysql
 
-	cp /etc/yum.conf /etc/yum.conf.lnmp
-	sed -i 's:exclude=.*:exclude=:g' /etc/yum.conf
+yum -y install yum-fastestmirror
+yum -y remove httpd
+#yum -y update
 
-	for packages in patch make cmake gcc gcc-c++ gcc-g77 bison flex file libtool libtool-libs autoconf kernel-devel libjpeg libjpeg-devel libpng libpng-devel gd gd-devel freetype freetype-devel libxml2 libxml2-devel zlib zlib-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel ncurses ncurses-devel curl curl-devel e2fsprogs e2fsprogs-devel krb5 krb5-devel libidn libidn-devel openssl openssl-devel gmp-devel gettext gettext-devel openldap openldap-devel nss_ldap openldap-clients openldap-servers vim-minimal nano fonts-chinese gmp-devel pspell-devel unzip libcap diffutils readline-devel libxslt libxslt-devel
-	do yum -y install $packages; done
+#Disable SeLinux
+if [ -s /etc/selinux/config ]; then
+sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
+fi
+for packages in patch make cmake gcc gcc-c++ gcc-g77 bison flex file libtool libtool-libs autoconf kernel-devel libjpeg libjpeg-devel libpng libpng-devel gd gd-devel freetype freetype-devel libxml2 libxml2-devel zlib zlib-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel ncurses ncurses-devel curl curl-devel e2fsprogs e2fsprogs-devel krb5 krb5-devel libidn libidn-devel openssl openssl-devel gmp-devel gettext gettext-devel openldap openldap-devel nss_ldap openldap-clients openldap-servers vim-minimal nano fonts-chinese gmp-devel pspell-devel unzip libcap diffutils readline-devel libxslt libxslt-devel
+do yum -y install $packages; done
 
-	mv -f /etc/yum.conf.lnmp /etc/yum.conf
-}
-
-function CheckAndDownloadFiles()
-{
 echo "============================check files=================================="
 if [ -s libiconv-1.14.tar.gz ]; then
   echo "libiconv-1.14.tar.gz [found]"
@@ -103,10 +102,7 @@ if [ -s p.tar.gz ]; then
 fi
 
 echo "============================check files=================================="
-}
 
-function InstallDependsAndOpt()
-{
 cd $cur_dir
 
 tar zxvf libiconv-1.14.tar.gz
@@ -151,7 +147,7 @@ cd mcrypt-2.6.8/
 make && make install
 cd ../
 
-}
+
 
 function InstallMySQL55()
 {
