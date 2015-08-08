@@ -63,6 +63,22 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "/C/Users/Administrator/Desktop/nginx.conf",
+			"settings":
+			{
+				"buffer_size": 5312,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/C/Users/Administrator/Desktop/p.php",
+			"settings":
+			{
+				"buffer_size": 40368,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -377,8 +393,67 @@
 	"groups":
 	[
 		{
+			"selected": 1,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "/C/Users/Administrator/Desktop/nginx.conf",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5312,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"origin_encoding": "UTF-8",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 4301.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/C/Users/Administrator/Desktop/p.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 40368,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"origin_encoding": "UTF-8",
+							"syntax": "Packages/PHP/PHP.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
 			]
 		}
 	],
