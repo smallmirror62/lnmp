@@ -178,14 +178,14 @@ cd $cur_dir/src
 
 tar zxf libiconv-1.14.tar.gz
 cd libiconv-1.14/
-./configure
+./configure --prefix=/usr
 make && make install
 cd ../
 
 cd $cur_dir/src
 tar zxf libmcrypt-2.5.8.tar.gz
 cd libmcrypt-2.5.8/
-./configure
+./configure --prefix=/usr
 make && make install
 ldconfig
 cd libltdl/
@@ -196,38 +196,28 @@ cd ../../
 cd $cur_dir/src
 tar zxf mhash-0.9.9.9.tar.gz
 cd mhash-0.9.9.9/
-./configure
+./configure --prefix=/usr
 make && make install
 cd ../
-
-ln -s /usr/local/lib/libmcrypt.la /usr/lib/libmcrypt.la
-ln -s /usr/local/lib/libmcrypt.so /usr/lib/libmcrypt.so
-ln -s /usr/local/lib/libmcrypt.so.4 /usr/lib/libmcrypt.so.4
-ln -s /usr/local/lib/libmcrypt.so.4.4.8 /usr/lib/libmcrypt.so.4.4.8
-ln -s /usr/local/lib/libmhash.a /usr/lib/libmhash.a
-ln -s /usr/local/lib/libmhash.la /usr/lib/libmhash.la
-ln -s /usr/local/lib/libmhash.so /usr/lib/libmhash.so
-ln -s /usr/local/lib/libmhash.so.2 /usr/lib/libmhash.so.2
-ln -s /usr/local/lib/libmhash.so.2.0.1 /usr/lib/libmhash.so.2.0.1
 
 cd $cur_dir/src
 tar zxf mcrypt-2.6.8.tar.gz
 cd mcrypt-2.6.8/
 /sbin/ldconfig
-./configure
+./configure --prefix=/usr
 make && make install
 cd ../
 
 cd $cur_dir/src
 tar zxf LuaJIT-2.0.4.tar.gz
 cd LuaJIT-2.0.4
-make && make install
+make && make install PREFIX=/usr
 cd ../
 
 cd $cur_dir/src
 tar zxf pcre-8.37.tar.gz
 cd pcre-8.37
-./configure
+./configure --prefix=/usr --enable-utf8  
 make && make install
 cd ../
 
