@@ -266,15 +266,15 @@ cd tengine-2.1.0/
 make && make install
 cd ../
 
-mkdir /var/lib/nginx
-mkdir /var/log/nginx
-
 cd $cur_dir
 cp etc/init.d/nginx /etc/init.d/nginx
+mkdir /var/lib/nginx
+mkdir /var/log/nginx
+mkdir /etc/nginx/sites-available
+mkdir /etc/nginx/sites-enabled
+ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/default.conf
 chmod +x /etc/init.d/nginx
 chkconfig nginx on
-
-ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/default.conf
 }
 
 function InstallMysql()
