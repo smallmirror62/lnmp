@@ -78,6 +78,14 @@
 				"buffer_size": 40368,
 				"line_ending": "Unix"
 			}
+		},
+		{
+			"file": "centos.sh",
+			"settings":
+			{
+				"buffer_size": 14522,
+				"line_ending": "Unix"
+			}
 		}
 	],
 	"build_system": "",
@@ -131,6 +139,8 @@
 	],
 	"file_history":
 	[
+		"/D/Server/PHP/php-sdk-binary-tools-20110915/bin/phpsdk_buildtree.bat",
+		"/E/src/codeforge/temp/codeforge.l68.net.tpl.12eloa5",
 		"/C/Users/Administrator/Desktop/lnmp0.9/centos.sh",
 		"/C/Users/Administrator/Desktop/p.php",
 		"/C/Users/Administrator/Desktop/lnmp1.0/centos.sh",
@@ -256,9 +266,7 @@
 		"/E/src/myip/storage/app/cookie/miibeian.gov.cn.cookie",
 		"/E/src/speedtest/webroot/SpeedTest/SpeedTest.html",
 		"/E/src/speedtest/webroot/SpeedTest/SpeedTest_moblie.html",
-		"/E/src/speedtest/webroot/SpeedTest/SpeedTest_moblie.src.html",
-		"/E/src/speedtest/resources/views/mobile_src.blade.php",
-		"/E/src/speedtest/webroot/assets/css/style.css"
+		"/E/src/speedtest/webroot/SpeedTest/SpeedTest_moblie.src.html"
 	],
 	"find":
 	{
@@ -393,7 +401,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -422,7 +430,7 @@
 						"translation.y": 4301.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -449,6 +457,35 @@
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "centos.sh",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 14522,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								8548,
+								8548
+							]
+						],
+						"settings":
+						{
+							"origin_encoding": "ASCII",
+							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 7920.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,

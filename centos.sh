@@ -271,8 +271,9 @@ mkdir /var/log/nginx
 cd $cur_dir
 cp etc/init.d/nginx /etc/init.d/nginx
 chmod +x /etc/init.d/nginx
-
 chkconfig nginx on
+
+ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/default.conf
 }
 
 function InstallMysql()
@@ -280,9 +281,9 @@ function InstallMysql()
 echo "============================Install Mysql================================="
 cd $cur_dir/src
 rm -f /etc/my.cnf
-tar zxf mysql-5.6.26.tar.gz
-cd mysql-5.6.26/
-cmake -DCMAKE_INSTALL_PREFIX=/usr -DMYSQL_DATADIR=/var/lib/mysql/data -DSYSCONFDIR=/etc DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DWITH_SSL=system -DWITH_ZLIB=system -DWITH_EMBEDDED_SERVER=1 -DMYSQL_UNIX_ADDR=/tmp/mysql.sock -DMYSQL_TCP_PORT=3306 -DENABLED_LOCAL_INFILE=1 -DEXTRA_CHARSETS=all -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci
+tar zxf mysql-5.5.45.tar.gz
+cd mysql-5.5.45/
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DMYSQL_DATADIR=/var/lib/mysql/data -DSYSCONFDIR=/etc -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DWITH_SSL=system -DWITH_ZLIB=system -DWITH_EMBEDDED_SERVER=1 -DMYSQL_UNIX_ADDR=/tmp/mysql.sock -DMYSQL_TCP_PORT=3306 -DENABLED_LOCAL_INFILE=1 -DEXTRA_CHARSETS=all -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DENABLE_DOWNLOADS=1
 make && make install
 
 groupadd mysql
@@ -300,7 +301,7 @@ echo "============================Mysql install completed=======================
 
 function CreatPHPTools()
 {
-mkdir /home/www/wwwroot
+mkdir /home/www/wwwroot/default
 echo "Create PHP Info Tool..."
 cat >/home/www/wwwroot/default/phpinfo.php<<eof
 <?
