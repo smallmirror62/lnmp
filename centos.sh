@@ -153,6 +153,7 @@ function CheckAndDownloadFiles()
   else
     echo "Error: mysql-5.6.26.tar.gz not found!!!download now......"
     wget -c http://7xk96f.com1.z0.glb.clouddn.com/software/mysql/mysql-5.6.26.tar.gz
+    wget -c http://dev.mysql.com/get/Downloads/MySQL-5.5/mysql-5.5.45.tar.gz
   fi
 
   if [ -s p.tar.gz ]; then
@@ -271,8 +272,9 @@ mkdir /var/log/nginx
 cd $cur_dir
 cp etc/init.d/nginx /etc/init.d/nginx
 chmod +x /etc/init.d/nginx
-
 chkconfig nginx on
+
+ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/default.conf
 }
 
 function InstallMysql()
@@ -280,27 +282,28 @@ function InstallMysql()
 echo "============================Install Mysql================================="
 cd $cur_dir/src
 rm -f /etc/my.cnf
-tar zxf mysql-5.6.26.tar.gz
-cd mysql-5.6.26/
-cmake -DCMAKE_INSTALL_PREFIX=/usr -DMYSQL_DATADIR=/var/lib/mysql/data -DSYSCONFDIR=/etc DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DWITH_SSL=system -DWITH_ZLIB=system -DWITH_EMBEDDED_SERVER=1 -DMYSQL_UNIX_ADDR=/tmp/mysql.sock -DMYSQL_TCP_PORT=3306 -DENABLED_LOCAL_INFILE=1 -DEXTRA_CHARSETS=all -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci
-make && make install
-
 groupadd mysql
 useradd -s /sbin/nologin -M -g mysql mysql
 
+tar zxf mysql-5.5.45.tar.gz
+cd mysql-5.5.45/
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DMYSQL_DATADIR=/var/lib/mysql -DSYSCONFDIR=/etc -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DWITH_SSL=system -DWITH_ZLIB=system -DWITH_EMBEDDED_SERVER=1 -DMYSQL_UNIX_ADDR=/tmp/mysql.sock -DMYSQL_TCP_PORT=3306 -DENABLED_LOCAL_INFILE=1 -DEXTRA_CHARSETS=all -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DENABLE_DOWNLOADS=1
+make && make install
+
 cp support-files/my-medium.cnf /etc/my.cnf
-/usr/local/mysql/scripts/mysql_install_db --defaults-file=/etc/my.cnf --basedir=/usr/local/mysql --datadir=/usr/local/mysql/var --user=mysql
-chown -R mysql /usr/local/mysql/var
-chgrp -R mysql /usr/local/mysql/.
+mkdir /var/lib/mysql
+mkdir /var/log/mysql
+/usr/scripts/mysql_install_db --defaults-file=/etc/my.cnf --basedir=/usr --datadir=/var/lib/mysql --user=mysql
 cp support-files/mysql.server /etc/init.d/mysql
-chmod 755 /etc/init.d/mysql
+chmod +x /etc/init.d/mysql
 chkconfig mysql on
+cd ../
 echo "============================Mysql install completed================================="
 }
 
 function CreatPHPTools()
 {
-mkdir /home/www/wwwroot
+mkdir /home/www/wwwroot/default
 echo "Create PHP Info Tool..."
 cat >/home/www/wwwroot/default/phpinfo.php<<eof
 <?
