@@ -67,15 +67,7 @@
 			"file": "centos.sh",
 			"settings":
 			{
-				"buffer_size": 14513,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "etc/init.d/php-fpm",
-			"settings":
-			{
-				"buffer_size": 2326,
+				"buffer_size": 17683,
 				"line_ending": "Unix"
 			}
 		}
@@ -131,10 +123,22 @@
 	],
 	"file_history":
 	[
+		"/E/src/lnmp/bin/memcached.sh",
+		"/E/src/lnmp/centos.sh",
+		"/C/Users/Administrator/Desktop/lnmp1.1/memcached.sh",
+		"/C/Users/Administrator/Desktop/lnmp1.1/imageMagick.sh",
+		"/E/src/lnmp/bin/mysql.sh",
+		"/E/src/lnmp/etc/init.d/php-fpm",
+		"/C/Users/Administrator/Desktop/sql/create_tables.sql",
+		"/E/src/lnmp/etc/nginx/nginx.conf",
+		"/E/src/lnmp/etc/init.d/memcached",
+		"/C/Users/Administrator/Desktop/lnmp1.1/conf/memcached-init",
+		"/E/src/lnmp/etc/nginx/sites-available/soft.tintsoft.com.conf",
+		"/E/src/lnmp/etc/nginx/sites-available/default.conf",
+		"/E/src/lnmp/etc/nginx/sites-available/l68.net.conf",
+		"/E/src/lnmp/etc/config.inc.php",
 		"/C/Users/Administrator/Desktop/nginx.conf",
 		"/C/Users/Administrator/Desktop/p.php",
-		"/E/src/lnmp/centos.sh",
-		"/E/src/lnmp/etc/init.d/php-fpm",
 		"/E/src/lnmp/etc/php.ini",
 		"/D/Server/PHP/php-sdk-binary-tools-20110915/bin/phpsdk_buildtree.bat",
 		"/E/src/codeforge/temp/codeforge.l68.net.tpl.12eloa5",
@@ -159,7 +163,6 @@
 		"/E/src/lnmp/opcache.sh",
 		"/E/src/lnmp/ubuntu.sh",
 		"/C/Users/Administrator/Desktop/Server/nginx.conf",
-		"/E/src/lnmp/etc/nginx/nginx.conf",
 		"/E/src/lnmp/etc/pure-ftpd.conf",
 		"/E/src/lnmp/etc/nginx/proxy-pass-php.conf",
 		"/E/src/lnmp/etc/nginx/proxy_params",
@@ -185,7 +188,6 @@
 		"/C/Users/Administrator/Desktop/lnmp1.2/conf/php-fpm5.2.conf",
 		"/C/Users/Administrator/Desktop/lnmp1.2/conf/proxy.conf",
 		"/C/Users/Administrator/Desktop/lnmp1.2/conf/enable-php-pathinfo.conf",
-		"/E/src/lnmp/etc/nginx/sites-available/default.conf",
 		"/C/Users/Administrator/Desktop/lnmp1.2/include/php.sh",
 		"/E/src/lnmp/etc/nginx/sites-enabled/dev.leadlife.cn.conf",
 		"/C/Users/Administrator/Desktop/lnmp1.2/include/main.sh",
@@ -248,17 +250,7 @@
 		"/E/src/speedtest/app/Report.php",
 		"/E/src/speedtest/app/TestPoint.php",
 		"/C/Users/Administrator/Desktop/lnmp1.2/install.sh",
-		"/C/Users/Administrator/Desktop/lnmp1.2/include/mariadb.sh",
-		"/E/src/speedtest/resources/views/mobile.blade.php",
-		"/E/src/myip/app/Http/Middleware/FangDao.php",
-		"/E/src/myip/app/Http/Middleware/Authenticate.php",
-		"/E/src/myip/app/Http/Middleware/VerifyCsrfToken - 副本.php",
-		"/E/src/speedtest/app/Http/Controllers/WelcomeController.php",
-		"/E/src/speedtest/app/Http/routes.php",
-		"/E/src/myip/app/KeywordIndexs.php",
-		"/D/Server/MongoDB/mongod.cfg",
-		"/E/src/myip/cheome/js/tr.js",
-		"/E/src/myip/storage/app/cookie/miibeian.gov.cn.cookie"
+		"/C/Users/Administrator/Desktop/lnmp1.2/include/mariadb.sh"
 	],
 	"find":
 	{
@@ -276,6 +268,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"autoconf",
 			"DEXTRA_CHARSETS",
 			"DWITH_ZLIB",
 			"mysql",
@@ -402,15 +395,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 14513,
+						"buffer_size": 17683,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								12452,
-								12452
+								14323,
+								14323
 							]
 						],
 						"settings":
@@ -418,44 +411,13 @@
 							"origin_encoding": "ASCII",
 							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage",
 							"tab_size": 2,
-							"translate_tabs_to_spaces": true,
-							"word_wrap": false
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 6567.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "etc/init.d/php-fpm",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2326,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								345,
-								354
-							]
-						],
-						"settings":
-						{
-							"origin_encoding": "ASCII",
-							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
 					"type": "text"
 				}
 			]

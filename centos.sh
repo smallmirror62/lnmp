@@ -65,7 +65,7 @@ function InitInstall()
     sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
   fi
 
-  yum -y install patch make cmake gcc gcc-c++ gcc-g77 bison flex file libtool libtool-libs autoconf kernel-devel libjpeg libjpeg-devel libpng libpng-devel gd gd-devel freetype freetype-devel libxml2 libxml2-devel zlib zlib-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel ncurses ncurses-devel curl curl-devel e2fsprogs e2fsprogs-devel krb5 krb5-devel libidn libidn-devel openssl openssl-devel gmp-devel gettext gettext-devel openldap openldap-devel nss_ldap openldap-clients openldap-servers vim-minimal nano fonts-chinese gmp-devel pspell-devel unzip libcap diffutils readline-devel libxslt libxslt-devel ntp wget
+  yum -y install patch make cmake gcc gcc-c++ gcc-g77 bison flex file libtool libtool-libs autoconf kernel-devel libjpeg libjpeg-devel libpng libpng-devel gd gd-devel freetype freetype-devel libxml2 libxml2-devel zlib zlib-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel ncurses ncurses-devel curl curl-devel e2fsprogs e2fsprogs-devel krb5 krb5-devel libidn libidn-devel openssl openssl-devel gmp-devel gettext gettext-devel openldap openldap-devel nss_ldap openldap-clients openldap-servers vim-minimal nano fonts-chinese gmp-devel pspell-devel unzip libcap diffutils readline-devel libxslt libxslt-devel ntp wget ctags
 
   ntpdate -u pool.ntp.org
   date
@@ -232,6 +232,7 @@ cd $cur_dir/src
 tar zxf php-5.6.12.tar.gz
 cd php-5.6.12/
 ./configure --prefix=${prefix} --mandir=${prefix}/share/man --infodir=${prefix}/share/info --sysconfdir=/etc --with-config-file-path=/etc --with-config-file-scan-dir=/etc/php --with-libxml-dir --with-openssl --with-kerberos --with-zlib --enable-bcmath --with-bz2 --enable-calendar --with-curl --enable-exif --enable-fpm --enable-ftp --with-png-dir --with-gd --with-jpeg-dir --enable-gd-native-ttf --with-icu-dir --enable-mbstring --enable-mbregex --enable-shmop --enable-soap --enable-sockets --enable-sysvmsg --enable-sysvsem --enable-sysvshm --enable-wddx --with-xmlrpc --with-readline --with-iconv-dir --with-xsl --enable-zip --with-pcre-regex --with-freetype-dir --enable-xml --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-pdo-sqlite --with-sqlite3 --disable-rpath  --enable-inline-optimization --with-mcrypt  --with-mhash --enable-pcntl --enable-sockets  --without-pear --with-gettext --enable-fileinfo --enable-opcache --enable-cli
+./configure --prefix=/usr/local --mandir=/usr/local/share/man --infodir=/usr/local/share/info --sysconfdir=/etc --with-config-file-path=/etc --with-config-file-scan-dir=/etc/php --with-libxml-dir --with-openssl --with-kerberos --with-zlib --enable-bcmath --with-bz2 --enable-calendar --with-curl --enable-exif --enable-fpm --enable-ftp --with-png-dir --with-gd --with-jpeg-dir --enable-gd-native-ttf --with-icu-dir --enable-mbstring --enable-mbregex --enable-shmop --enable-soap --enable-sockets --enable-sysvmsg --enable-sysvsem --enable-sysvshm --enable-wddx --with-xmlrpc --with-readline --with-iconv-dir --with-xsl --enable-zip --with-pcre-regex --with-freetype-dir --enable-xml --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-pdo-sqlite --with-sqlite3 --disable-rpath  --enable-inline-optimization --with-mcrypt  --with-mhash --enable-pcntl --enable-sockets  --without-pear --with-gettext --enable-fileinfo --enable-opcache --enable-cli
 make ZEND_EXTRA_LIBS='-liconv'
 make install
 
@@ -252,18 +253,22 @@ cd $cur_dir/src
 tar zxf tengine-2.1.0.tar.gz
 cd tengine-2.1.0/
 ./configure --prefix=${prefix} --sbin-path=${prefix}/sbin --dso-path=${prefix}/lib/nginx --conf-path=/etc/nginx/nginx.conf --http-log-path=/var/log/nginx/access.log --error-log-path=/var/log/nginx/error.log --lock-path=/var/lock/nginx.lock --pid-path=/var/run/nginx.pid --http-client-body-temp-path=/var/lib/nginx/body --http-fastcgi-temp-path=/var/lib/nginx/fastcgi --http-proxy-temp-path=/var/lib/nginx/proxy --http-scgi-temp-path=/var/lib/nginx/scgi --http-uwsgi-temp-path=/var/lib/nginx/uwsgi --with-luajit-inc=/usr/local/include/luajit-2.0 --with-luajit-lib=/usr/local/lib --with-ipv6 --with-mail --with-pcre-jit --with-http_ssl_module --with-http_sub_module  --with-mail_ssl_module --with-http_dav_module --with-http_xslt_module --with-http_spdy_module --with-http_realip_module --with-http_addition_module --with-http_gzip_static_module --with-http_stub_status_module --with-http_image_filter_module --with-http_lua_module=shared --with-http_footer_filter_module=shared --with-http_sysguard_module=shared --with-http_limit_req_module=shared --with-http_trim_filter_module=shared --with-http_upstream_ip_hash_module=shared --with-http_upstream_least_conn_module=shared --with-http_upstream_session_sticky_module=shared --with-http_concat_module=shared 
+./configure --prefix=/usr/local --sbin-path=/usr/local/sbin --dso-path=/usr/local/lib/nginx --conf-path=/etc/nginx/nginx.conf --http-log-path=/var/log/nginx/access.log --error-log-path=/var/log/nginx/error.log --lock-path=/var/lock/nginx.lock --pid-path=/var/run/nginx.pid --http-client-body-temp-path=/var/lib/nginx/body --http-fastcgi-temp-path=/var/lib/nginx/fastcgi --http-proxy-temp-path=/var/lib/nginx/proxy --http-scgi-temp-path=/var/lib/nginx/scgi --http-uwsgi-temp-path=/var/lib/nginx/uwsgi --with-luajit-inc=/usr/local/include/luajit-2.0 --with-luajit-lib=/usr/local/lib --with-ipv6 --with-mail --with-pcre-jit --with-http_ssl_module --with-http_sub_module  --with-mail_ssl_module --with-http_dav_module --with-http_xslt_module --with-http_spdy_module --with-http_realip_module --with-http_addition_module --with-http_gzip_static_module --with-http_stub_status_module --with-http_image_filter_module --with-http_lua_module=shared --with-http_footer_filter_module=shared --with-http_sysguard_module=shared --with-http_limit_req_module=shared --with-http_trim_filter_module=shared --with-http_upstream_ip_hash_module=shared --with-http_upstream_least_conn_module=shared --with-http_upstream_session_sticky_module=shared --with-http_concat_module=shared 
 make && make install
 cd ../
 
 cd $cur_dir
 cp etc/init.d/nginx /etc/init.d/nginx
 mkdir /var/lib/nginx
-mkdir /var/log/nginx
 mkdir /etc/nginx/sites-available
 mkdir /etc/nginx/sites-enabled
 ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/default.conf
+ln -s /etc/nginx/sites-available/l68.net.conf /etc/nginx/sites-enabled/l68.net.conf
+ln -s /usr/local/lib/libpcre.so.1 /lib64/libpcre.so.1
 chmod +x /etc/init.d/nginx
 chkconfig nginx on
+
+
 }
 
 function InstallMysql()
@@ -277,22 +282,29 @@ useradd -s /sbin/nologin -M -g mysql mysql
 tar zxf mysql-5.5.45.tar.gz
 cd mysql-5.5.45/
 cmake -DCMAKE_INSTALL_PREFIX=${prefix} -DMYSQL_DATADIR=/var/lib/mysql -DSYSCONFDIR=/etc -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DWITH_SSL=system -DWITH_ZLIB=system -DWITH_EMBEDDED_SERVER=1 -DMYSQL_UNIX_ADDR=/tmp/mysql.sock -DMYSQL_TCP_PORT=3306 -DENABLED_LOCAL_INFILE=1 -DEXTRA_CHARSETS=all -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DENABLE_DOWNLOADS=1
+cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DMYSQL_DATADIR=/var/lib/mysql -DSYSCONFDIR=/etc -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DWITH_SSL=system -DWITH_ZLIB=system -DWITH_EMBEDDED_SERVER=1 -DMYSQL_UNIX_ADDR=/tmp/mysql.sock -DMYSQL_TCP_PORT=3306 -DENABLED_LOCAL_INFILE=1 -DEXTRA_CHARSETS=all -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DENABLE_DOWNLOADS=1
 make && make install
 
 cp support-files/my-medium.cnf /etc/my.cnf
 mkdir /var/lib/mysql
 mkdir /var/log/mysql
-/usr/scripts/mysql_install_db --defaults-file=/etc/my.cnf --basedir=${prefix} --datadir=/var/lib/mysql --user=mysql
+
+${prefix}/scripts/mysql_install_db --defaults-file=/etc/my.cnf --basedir=${prefix} --datadir=/var/lib/mysql --user=mysql
+
+/usr/local/scripts/mysql_install_db --defaults-file=/etc/my.cnf --basedir=/usr/local --datadir=/var/lib/mysql --user=mysql
+
 cp support-files/mysql.server /etc/init.d/mysql
 chmod +x /etc/init.d/mysql
 chkconfig mysql on
+
+chmod +x /etc/init.d/memcached on
 cd ../
 echo "============================Mysql install completed================================="
 }
 
 function CreatPHPTools()
 {
-mkdir /home/www/wwwroot/default
+mkdir -p /home/www/wwwroot/default
 echo "Create PHP Info Tool..."
 cat >/home/www/wwwroot/default/phpinfo.php<<eof
 <?
@@ -306,7 +318,8 @@ cp p.php /home/www/wwwroot/default/p.php
 cp conf/index.html /home/wwwroot/default/index.html
 echo "============================Install PHPMyAdmin================================="
 tar zxf phpMyAdmin-4.4.13-all-languages.tar.gz
-mv phpMyAdmin-4.4.13-all-languages /home/www/wwwroot/default/phpmyadmin
+tar zxf phpMyAdmin-4.4.13.1-all-languages.tar.gz
+mv phpMyAdmin-4.4.13.1-all-languages /home/www/wwwroot/default/phpmyadmin
 cp conf/config.inc.php /home/wwwroot/default/phpmyadmin/config.inc.php
 echo "============================phpMyAdmin install completed================================="
 }
@@ -317,11 +330,15 @@ echo "============================add nginx and php-fpm on startup==============
 
 #add iptables firewall rules
 if [ -s /sbin/iptables ]; then
+/sbin/iptables -I INPUT -p tcp --dport 21 -j ACCEPT
+/sbin/iptables -I INPUT -p tcp --dport 22 -j ACCEPT
 /sbin/iptables -I INPUT -p tcp --dport 80 -j ACCEPT
 /sbin/iptables -I INPUT -p tcp --dport 3306 -j DROP
 /sbin/iptables-save
+chkconfig iptables on
 fi
-
+chkconfig shadowsocks on
+service shadowsocks start
 }
 
 function CheckInstall()
