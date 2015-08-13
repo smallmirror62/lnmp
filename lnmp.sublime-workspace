@@ -64,26 +64,18 @@
 	"buffers":
 	[
 		{
-			"file": "/C/Users/Administrator/Desktop/nginx.conf",
-			"settings":
-			{
-				"buffer_size": 5312,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/C/Users/Administrator/Desktop/p.php",
-			"settings":
-			{
-				"buffer_size": 40368,
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "centos.sh",
 			"settings":
 			{
-				"buffer_size": 14522,
+				"buffer_size": 14513,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "etc/init.d/php-fpm",
+			"settings":
+			{
+				"buffer_size": 2326,
 				"line_ending": "Unix"
 			}
 		}
@@ -139,14 +131,17 @@
 	],
 	"file_history":
 	[
+		"/C/Users/Administrator/Desktop/nginx.conf",
+		"/C/Users/Administrator/Desktop/p.php",
+		"/E/src/lnmp/centos.sh",
+		"/E/src/lnmp/etc/init.d/php-fpm",
+		"/E/src/lnmp/etc/php.ini",
 		"/D/Server/PHP/php-sdk-binary-tools-20110915/bin/phpsdk_buildtree.bat",
 		"/E/src/codeforge/temp/codeforge.l68.net.tpl.12eloa5",
 		"/C/Users/Administrator/Desktop/lnmp0.9/centos.sh",
-		"/C/Users/Administrator/Desktop/p.php",
 		"/C/Users/Administrator/Desktop/lnmp1.0/centos.sh",
 		"/E/src/lnmp/lnmp-install.log",
 		"/E/src/p.php",
-		"/E/src/lnmp/centos.sh",
 		"/C/Users/Administrator/Desktop/lnmp1.1/centos.sh",
 		"/C/Users/Administrator/Desktop/lnmp1.1/lnmp",
 		"/E/src/lnmp/lnmp",
@@ -263,10 +258,7 @@
 		"/E/src/myip/app/KeywordIndexs.php",
 		"/D/Server/MongoDB/mongod.cfg",
 		"/E/src/myip/cheome/js/tr.js",
-		"/E/src/myip/storage/app/cookie/miibeian.gov.cn.cookie",
-		"/E/src/speedtest/webroot/SpeedTest/SpeedTest.html",
-		"/E/src/speedtest/webroot/SpeedTest/SpeedTest_moblie.html",
-		"/E/src/speedtest/webroot/SpeedTest/SpeedTest_moblie.src.html"
+		"/E/src/myip/storage/app/cookie/miibeian.gov.cn.cookie"
 	],
 	"find":
 	{
@@ -401,94 +393,69 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "/C/Users/Administrator/Desktop/nginx.conf",
+					"file": "centos.sh",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5312,
+						"buffer_size": 14513,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								12452,
+								12452
 							]
 						],
 						"settings":
 						{
-							"origin_encoding": "UTF-8",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"origin_encoding": "ASCII",
+							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true,
+							"word_wrap": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 4301.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "/C/Users/Administrator/Desktop/p.php",
+					"file": "etc/init.d/php-fpm",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 40368,
+						"buffer_size": 2326,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								345,
+								354
 							]
 						],
 						"settings":
 						{
-							"origin_encoding": "UTF-8",
-							"syntax": "Packages/PHP/PHP.tmLanguage"
+							"origin_encoding": "ASCII",
+							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "centos.sh",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 14522,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								8548,
-								8548
-							]
-						],
-						"settings":
-						{
-							"origin_encoding": "ASCII",
-							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 7920.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
 					"type": "text"
 				}
 			]

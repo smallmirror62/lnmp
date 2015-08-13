@@ -18,17 +18,7 @@ echo "For more information please visit http://www.tintsoft.com/"
 echo "========================================================================="
 cur_dir=$(pwd)
 
-Download_Files()
-{
-    local URL=$1
-    local FileName=$2
-    if [ -s "${FileName}" ]; then
-        echo "${FileName} [found]"
-    else
-        echo "Error: ${FileName} not found!!!download now..."
-        wget -c ${URL}
-    fi
-}
+prefix=/usr/local
 
 get_char()
 {
@@ -152,7 +142,6 @@ function CheckAndDownloadFiles()
     echo "mysql-5.6.26.tar.gz [found]"
   else
     echo "Error: mysql-5.6.26.tar.gz not found!!!download now......"
-    wget -c http://7xk96f.com1.z0.glb.clouddn.com/software/mysql/mysql-5.6.26.tar.gz
     wget -c http://dev.mysql.com/get/Downloads/MySQL-5.5/mysql-5.5.45.tar.gz
   fi
 
@@ -178,14 +167,14 @@ cd $cur_dir/src
 
 tar zxf libiconv-1.14.tar.gz
 cd libiconv-1.14/
-./configure --prefix=/usr
+./configure
 make && make install
 cd ../
 
 cd $cur_dir/src
 tar zxf libmcrypt-2.5.8.tar.gz
 cd libmcrypt-2.5.8/
-./configure --prefix=/usr
+./configure
 make && make install
 ldconfig
 cd libltdl/
@@ -196,28 +185,38 @@ cd ../../
 cd $cur_dir/src
 tar zxf mhash-0.9.9.9.tar.gz
 cd mhash-0.9.9.9/
-./configure --prefix=/usr
+./configure
 make && make install
 cd ../
+
+ln -s /usr/local/lib/libmcrypt.la /usr/lib/libmcrypt.la
+ln -s /usr/local/lib/libmcrypt.so /usr/lib/libmcrypt.so
+ln -s /usr/local/lib/libmcrypt.so.4 /usr/lib/libmcrypt.so.4
+ln -s /usr/local/lib/libmcrypt.so.4.4.8 /usr/lib/libmcrypt.so.4.4.8
+ln -s /usr/local/lib/libmhash.a /usr/lib/libmhash.a
+ln -s /usr/local/lib/libmhash.la /usr/lib/libmhash.la
+ln -s /usr/local/lib/libmhash.so /usr/lib/libmhash.so
+ln -s /usr/local/lib/libmhash.so.2 /usr/lib/libmhash.so.2
+ln -s /usr/local/lib/libmhash.so.2.0.1 /usr/lib/libmhash.so.2.0.1
 
 cd $cur_dir/src
 tar zxf mcrypt-2.6.8.tar.gz
 cd mcrypt-2.6.8/
 /sbin/ldconfig
-./configure --prefix=/usr
+./configure
 make && make install
 cd ../
 
 cd $cur_dir/src
 tar zxf LuaJIT-2.0.4.tar.gz
-cd LuaJIT-2.0.4
-make && make install PREFIX=/usr
+cd LuaJIT-2.0.4/
+make && make install
 cd ../
 
 cd $cur_dir/src
 tar zxf pcre-8.37.tar.gz
-cd pcre-8.37
-./configure --prefix=/usr --enable-utf8  
+cd pcre-8.37/
+./configure --enable-utf8  
 make && make install
 cd ../
 
@@ -232,7 +231,7 @@ echo "============================Install PHP 5.6.12========================="
 cd $cur_dir/src
 tar zxf php-5.6.12.tar.gz
 cd php-5.6.12/
-./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info --sysconfdir=/etc --with-config-file-path=/etc --with-config-file-scan-dir=/etc/php --with-libxml-dir --with-openssl --with-kerberos --with-zlib --enable-bcmath --with-bz2 --enable-calendar --with-curl --enable-exif --enable-fpm --enable-ftp --with-png-dir --with-gd --with-jpeg-dir --enable-gd-native-ttf --with-icu-dir --enable-mbstring --enable-mbregex --enable-shmop --enable-soap --enable-sockets --enable-sysvmsg --enable-sysvsem --enable-sysvshm --enable-wddx --with-xmlrpc --with-readline --with-iconv-dir --with-xsl --enable-zip --with-pcre-regex --with-freetype-dir --enable-xml --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-pdo-sqlite --with-sqlite3 --disable-rpath  --enable-inline-optimization --with-mcrypt  --with-mhash --enable-pcntl --enable-sockets  --without-pear --with-gettext --enable-fileinfo --enable-opcache --enable-cli
+./configure --prefix=${prefix} --mandir=${prefix}/share/man --infodir=${prefix}/share/info --sysconfdir=/etc --with-config-file-path=/etc --with-config-file-scan-dir=/etc/php --with-libxml-dir --with-openssl --with-kerberos --with-zlib --enable-bcmath --with-bz2 --enable-calendar --with-curl --enable-exif --enable-fpm --enable-ftp --with-png-dir --with-gd --with-jpeg-dir --enable-gd-native-ttf --with-icu-dir --enable-mbstring --enable-mbregex --enable-shmop --enable-soap --enable-sockets --enable-sysvmsg --enable-sysvsem --enable-sysvshm --enable-wddx --with-xmlrpc --with-readline --with-iconv-dir --with-xsl --enable-zip --with-pcre-regex --with-freetype-dir --enable-xml --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-pdo-sqlite --with-sqlite3 --disable-rpath  --enable-inline-optimization --with-mcrypt  --with-mhash --enable-pcntl --enable-sockets  --without-pear --with-gettext --enable-fileinfo --enable-opcache --enable-cli
 make ZEND_EXTRA_LIBS='-liconv'
 make install
 
@@ -252,7 +251,7 @@ echo "============================Install Nginx=================================
 cd $cur_dir/src
 tar zxf tengine-2.1.0.tar.gz
 cd tengine-2.1.0/
-./configure --prefix=/usr --sbin-path=/usr/sbin --dso-path=/usr/lib/nginx --conf-path=/etc/nginx/nginx.conf --http-log-path=/var/log/nginx/access.log --error-log-path=/var/log/nginx/error.log --lock-path=/var/lock/nginx.lock --pid-path=/var/run/nginx.pid --http-client-body-temp-path=/var/lib/nginx/body --http-fastcgi-temp-path=/var/lib/nginx/fastcgi --http-proxy-temp-path=/var/lib/nginx/proxy --http-scgi-temp-path=/var/lib/nginx/scgi --http-uwsgi-temp-path=/var/lib/nginx/uwsgi --with-luajit-inc=/usr/local/include/luajit-2.0 --with-luajit-lib=/usr/local/lib --with-ipv6 --with-mail --with-pcre-jit --with-http_ssl_module --with-http_sub_module  --with-mail_ssl_module --with-http_dav_module --with-http_xslt_module --with-http_spdy_module --with-http_realip_module --with-http_addition_module --with-http_gzip_static_module --with-http_stub_status_module --with-http_image_filter_module --with-http_lua_module=shared --with-http_footer_filter_module=shared --with-http_sysguard_module=shared --with-http_limit_req_module=shared --with-http_trim_filter_module=shared --with-http_upstream_ip_hash_module=shared --with-http_upstream_least_conn_module=shared --with-http_upstream_session_sticky_module=shared --with-http_concat_module=shared 
+./configure --prefix=${prefix} --sbin-path=${prefix}/sbin --dso-path=${prefix}/lib/nginx --conf-path=/etc/nginx/nginx.conf --http-log-path=/var/log/nginx/access.log --error-log-path=/var/log/nginx/error.log --lock-path=/var/lock/nginx.lock --pid-path=/var/run/nginx.pid --http-client-body-temp-path=/var/lib/nginx/body --http-fastcgi-temp-path=/var/lib/nginx/fastcgi --http-proxy-temp-path=/var/lib/nginx/proxy --http-scgi-temp-path=/var/lib/nginx/scgi --http-uwsgi-temp-path=/var/lib/nginx/uwsgi --with-luajit-inc=/usr/local/include/luajit-2.0 --with-luajit-lib=/usr/local/lib --with-ipv6 --with-mail --with-pcre-jit --with-http_ssl_module --with-http_sub_module  --with-mail_ssl_module --with-http_dav_module --with-http_xslt_module --with-http_spdy_module --with-http_realip_module --with-http_addition_module --with-http_gzip_static_module --with-http_stub_status_module --with-http_image_filter_module --with-http_lua_module=shared --with-http_footer_filter_module=shared --with-http_sysguard_module=shared --with-http_limit_req_module=shared --with-http_trim_filter_module=shared --with-http_upstream_ip_hash_module=shared --with-http_upstream_least_conn_module=shared --with-http_upstream_session_sticky_module=shared --with-http_concat_module=shared 
 make && make install
 cd ../
 
@@ -277,13 +276,13 @@ useradd -s /sbin/nologin -M -g mysql mysql
 
 tar zxf mysql-5.5.45.tar.gz
 cd mysql-5.5.45/
-cmake -DCMAKE_INSTALL_PREFIX=/usr -DMYSQL_DATADIR=/var/lib/mysql -DSYSCONFDIR=/etc -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DWITH_SSL=system -DWITH_ZLIB=system -DWITH_EMBEDDED_SERVER=1 -DMYSQL_UNIX_ADDR=/tmp/mysql.sock -DMYSQL_TCP_PORT=3306 -DENABLED_LOCAL_INFILE=1 -DEXTRA_CHARSETS=all -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DENABLE_DOWNLOADS=1
+cmake -DCMAKE_INSTALL_PREFIX=${prefix} -DMYSQL_DATADIR=/var/lib/mysql -DSYSCONFDIR=/etc -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DWITH_SSL=system -DWITH_ZLIB=system -DWITH_EMBEDDED_SERVER=1 -DMYSQL_UNIX_ADDR=/tmp/mysql.sock -DMYSQL_TCP_PORT=3306 -DENABLED_LOCAL_INFILE=1 -DEXTRA_CHARSETS=all -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DENABLE_DOWNLOADS=1
 make && make install
 
 cp support-files/my-medium.cnf /etc/my.cnf
 mkdir /var/lib/mysql
 mkdir /var/log/mysql
-/usr/scripts/mysql_install_db --defaults-file=/etc/my.cnf --basedir=/usr --datadir=/var/lib/mysql --user=mysql
+/usr/scripts/mysql_install_db --defaults-file=/etc/my.cnf --basedir=${prefix} --datadir=/var/lib/mysql --user=mysql
 cp support-files/mysql.server /etc/init.d/mysql
 chmod +x /etc/init.d/mysql
 chkconfig mysql on
@@ -333,27 +332,27 @@ isnginx=""
 ismysql=""
 isphp=""
 echo "Checking..."
-if [ -s /etc/nginx/nginx.conf ] && [ -s /usr/sbin/nginx ]; then
+if [ -s /etc/nginx/nginx.conf ] && [ -s ${prefix}/sbin/nginx ]; then
   echo "Nginx: OK"
   isnginx="ok"
   else
-  echo "Error: /usr/sbin/nginx not found!!!Nginx install failed."
+  echo "Error: ${prefix}/sbin/nginx not found!!!Nginx install failed."
 fi
 
-if [ -s /usr/bin/mysql ] && [ -s /usr/bin/mysqld_safe ] && [ -s /etc/my.cnf ]; then
+if [ -s ${prefix}/bin/mysql ] && [ -s ${prefix}/bin/mysqld_safe ] && [ -s /etc/my.cnf ]; then
   echo "MySQL: OK"
   ismysql="ok"
   else
-  echo "Error: /usr/bin/mysql not found!!!MySQL install failed."
+  echo "Error: ${prefix}/bin/mysql not found!!!MySQL install failed."
 fi
 
 
-if [ -s /usr/sbin/php-fpm ] && [ -s /etc/php.ini ] && [ -s /usr/bin/php ]; then
+if [ -s ${prefix}/sbin/php-fpm ] && [ -s /etc/php.ini ] && [ -s ${prefix}/bin/php ]; then
   echo "PHP: OK"
   echo "PHP-FPM: OK"
   isphp="ok"
   else
-  echo "Error: /usr/bin/php not found!!!PHP install failed."
+  echo "Error: ${prefix}/bin/php not found!!!PHP install failed."
 fi
 
 
@@ -383,12 +382,12 @@ fi
 
 }
 
-# InitInstall 2>&1 | tee /root/lnmp-install.log
+InitInstall 2>&1 | tee /root/lnmp-install.log
 CheckAndDownloadFiles 2>&1 | tee -a /root/lnmp-install.log
-#InstallDependsAndOpt 2>&1 | tee -a /root/lnmp-install.log
-#InstallMySQL56 2>&1 | tee -a /root/lnmp-install.log
-#InstallPHP56 2>&1 | tee -a /root/lnmp-install.log
-#InstallNginx 2>&1 | tee -a /root/lnmp-install.log
+InstallDependsAndOpt 2>&1 | tee -a /root/lnmp-install.log
+InstallMySQL56 2>&1 | tee -a /root/lnmp-install.log
+InstallPHP56 2>&1 | tee -a /root/lnmp-install.log
+InstallNginx 2>&1 | tee -a /root/lnmp-install.log
 CreatPHPTools 2>&1 | tee -a /root/lnmp-install.log
 AddAndStartup 2>&1 | tee -a /root/lnmp-install.log
 CheckInstall 2>&1 | tee -a /root/lnmp-install.log
